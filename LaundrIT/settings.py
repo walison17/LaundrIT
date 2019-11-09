@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Home.apps.HomeConfig',
+    'Servico.apps.ServicoConfig',
+    'Pedido.apps.PedidoConfig',
     'bootstrapform',
     'widget_tweaks',
     'import_export',
