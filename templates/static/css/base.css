@@ -1,0 +1,19 @@
+header.main-header {
+    background-color: rgb(21, 64, 85);
+}
+
+aside.main-sidebar {
+    background-color: rgb(21, 64, 85);
+}
+
+
+/* Login */
+
+div.login-box-body {
+    border-style: solid;
+    border-width: 3px;
+}
+
+span#nome-usuario {
+    color: black;
+}

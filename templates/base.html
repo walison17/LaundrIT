@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="br">
+<head>
+{% block title %} <title>LaundrIT</title> {% endblock %}
+{% include 'parciais/_head.html' %}
+</head>
+
+<body class="hold-transition skin-blue sidebar-minifixed">
+    <div class="wrapper">
+
+       {% include 'parciais/_nav.html'%}
+    
+ <div class="content-wrapper">
+      <section class="content container-fluid">
+      {% block main %}
+
+      {% endblock %}
+      </section>
+
+            </div>
+
+    {% include 'parciais/_footer.html' %}
+    
+        </div>
+
+</body>
+</html>

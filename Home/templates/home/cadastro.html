@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block title %}{% endblock %}
+{% block main %}
+
+
+<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"> Cadastro Usuário</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form method="POST" action="{% url 'cadastro' %}" role="form">
+            {% include 'parciais/_messages.html' %}
+            {% csrf_token %}
+          
+              <div class="box-body">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nome_cliente">Nome </label>
+                  <input type="text" class="form-control" name="nome" id="nome_cliente" placeholder="Digite seu nome">
+                </div>
+                </div>
+                  <div class="col-md-6">
+                <div class="form-group">
+                  <label for="cpf_cliente">CPF </label>
+                  <input type="text" class="form-control" name="cpf" id="cpf_cliente" placeholder="Digite seu CPF">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="rg_cliente">RG </label>
+                  <input type="text" class="form-control"  name="rg" id="rg_cliente" placeholder="Digite seu RG">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="endereco_cliente">Endereço </label>
+                  <input type="text" class="form-control" name="endereco" id="endereco_cliente" placeholder="Digite seu Endereço">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telefone_cliente">Telefone </label>
+                  <input type="number" class="form-control" name="telefone" id="telefone_cliente" placeholder="Digite seu Telefone">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="usuario_cliente">Usuário </label>
+                  <input type="text" class="form-control" name="usuario" id="usuario_cliente" placeholder="Digite seu Usuário">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha_cliente">Senha </label>
+                  <input type="password" class="form-control" name="senha" id="senha_cliente" placeholder="Digite seu Senha">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha2_cliente">Confirmar Senha </label>
+                  <input type="password" class="form-control" name="senha2" id="senha2_cliente" placeholder="Confirme sua Senha">
+                </div>
+                </div>
+                <div class="col-md-9">
+                   <div class="form-group">
+                  <label for="email_cliente">E-mail</label>
+                  <input type="email" class="form-control" name="email" id="email_cliente" placeholder="Digite seu E-mail">
+                </div>
+                </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+              <div class="col-md-3">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="reset" class="btn btn-primary">Limpar</button>
+                 <a class="btn btn-primary" href="{% url 'login' %}" role="button">Voltar</a>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+{% endblock %}

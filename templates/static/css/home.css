@@ -1,0 +1,23 @@
+/* Settings */
+
+
+/* Estilo da Estrutura do HTML */
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/* tabela do treinamento com id = conteudo */
+
+td#conteudo {
+    width: 10%;
+}
+
+
+/* tabela de instrutor select option */
+
+select#instrutor {
+    width: 100%;
+}
