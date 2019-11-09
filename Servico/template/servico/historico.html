@@ -1,0 +1,129 @@
+{% extends 'base_logado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block title %} {% endblock %}
+{% block sidebar %}
+<!-- Sidebar user panel (optional) -->
+                {% if not user.is_superuser %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p>{{user.cliente.nome_cliente}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p style="font-size: 12px;">{{user.first_name}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- search form (Optional) -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                {% if user.is_superuser %}
+  <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li class="active"><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% else %}
+       <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
+          <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li class="active"><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% endif %}
+
+{% endblock %}
+
+{% block main %}
+<div class="row">
+<div class="col-md-12">
+<h3>Histórico de Pedidos</h3>
+<div class="col-md-6">
+<div class="btn-group">
+                  <button type="button" class="btn btn-info">Filtro de Pedidos</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Pedidos Ativos</a></li>
+                    <li><a href="#">Pedidos Finalizados</a></li>
+                    <li><a href="#">Pedidos Cancelados</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Ver Todos os Pedidos</a></li>
+                  </ul>
+                </div>
+
+</div>
+<br>
+<br>
+<div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Responsive Hover Table</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody><tr>
+                  <th>Codigo</th>
+                  <th>Data da Solicitação</th>
+                  <th>Data de Entrega</th>
+                  <th>Valor</th>
+                  <th>Pagamento</th>
+                </tr>
+                  <td>175</td>
+                  <td>24/07/2019</td>
+                  <td>24/08/2019</td>
+                  <td><span class="label label-danger">Denied</span></td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+
+
+
+</div>
+</div>
+
+
+{% endblock %}

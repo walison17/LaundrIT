@@ -1,0 +1,269 @@
+{% extends 'base_logado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block sidebar %}
+<!-- Sidebar user panel (optional) -->
+                {% if not user.is_superuser %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p>{{user.cliente.nome_cliente}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p style="font-size: 12px;">{{user.first_name}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- search form (Optional) -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+  <ul class="sidebar-menu" data-widget="tree">
+            {% if user.is_superuser %}
+          <li class="active"><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li class="active"><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+          {% else %}
+          <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa fa-file-text-o"></i> <span>DASHBOARD</span></a></li>
+          <li class="active"><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="row">
+<div class="col-md-12">
+<div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Dados Pessoais</h3>
+            </div>
+            <div class="box-body">
+              <!-- Date dd/mm/yyyy -->
+              <div class="col-md-6">
+              <div class="form-group">
+                <label>Nome do Cliente:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <input type="text" class="form-control" value="{{user.cliente.nome_cliente}}" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+            <div class="col-md-6">
+              <!-- phone mask -->
+              <div class="form-group">
+                <label>E-mail:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-envelope-o"></i>
+                  </div>
+                  <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+            <div class="col-md-4">
+              <!-- phone mask -->
+              <div class="form-group">
+                <label>CPF:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-list-alt"></i>
+                  </div>
+                  <input type="text" class="form-control" id="cpf" value="{{ user.cliente.cpf }}" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+            <div class="col-md-4">
+              <!-- IP mask -->
+              <div class="form-group">
+                <label>Endereço:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-home"></i>
+                  </div>
+                  <input type="text" class="form-control" id="endereco" value="{{ user.cliente.endereco }}" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+              <div class="col-md-4">
+              <!-- IP mask -->
+              <div class="form-group">
+                <label>Telefone:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <input type="text" class="form-control" id="telefone" value={{ user.cliente.telefone }} readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+            </div>
+            <!-- /.box-body -->
+
+          </div>
+          <!-- aqui fecha o formulário...-->
+</div>
+<!-- primeiro box de dados pessoais -->
+
+
+
+<div class="col-md-12">
+<div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Dados do Pedido</h3>
+            </div>
+            <div class="box-body"> 
+              <!-- Date dd/mm/yyyy -->
+
+              <div class="col-md-3">
+              <div class="form-group">
+                <label>Data de Entrega</label> <a href="#" title="Agendar"> Agendar</a>
+
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  
+                  <input type="text" class="form-control pull-right" id="datepicker"> 
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+        <div class="col-md-12">
+        {% include 'parciais/_messages.html' %}
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Fazer Pedidos</h3>
+            </div>
+            <!-- /.box-header -->
+            <form method="POST" enctype="multipart/form-data" action="{% url 'adicionar_item' %}">
+            {% csrf_token %} {{ form.errors }}
+            <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead>
+                <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" style=" width: 20%;">Item</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 18%;">Serviço</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 12%;">Quantidade</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 6%;">Valor Unitário</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 6%;">Valor Total</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 1%;"></th>
+
+                </tr>
+                <tr>
+  <td class="table-info " style="text-align : left;"><div class="input-group">
+  <select class="form-control" name="nome_item" id="nome_item">
+    <option value>------------------------------</option>
+    {% for nome_item in item.all %}
+    <option id="item" value="{{ nome_item.id }}" name="nome_item">{{ nome_item }}</option>
+    {% endfor %}
+   </div></td>
+                        <td class="table-info " style="text-align : left;"><div class="input-group">
+                        <select class="form-control" name="tipo_de_servico" id="tipo_de_servico">
+    <option value>------------------------------</option>
+    {% for tipo_de_servico in servico.all %}
+    <option id="servico" value="{{ tipo_de_servico.id }}" name="tipo_de_servico">{{ tipo_de_servico }}</option>
+    {% endfor %}
+    </div> </td>
+                        <td class="table-info " style="text-align : left;"><div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="" name="quantidade"  ></div> </td>
+                        <td class="table-info " style="text-align : left;"><div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="0,00" name="valor_item_pedido" readonly></div></td>
+                        <td class="table-info " style="text-align : left;"><div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="0,00" name="valor_item_pedido_qtd" readonly></div> </td>
+                        <td class="table-info " style="text-align : left;"><button type="submit" class="btn btn-primary">Adicionar</button></td>
+                        </tr>
+
+                </thead>
+                </form>
+                <tbody>        
+                <tr role="row" class="odd">
+                {% for itempedido in itempedido %}
+                  <td style="text-align : left;">{{ itempedido.nome_item }} R${{ itempedido.nome_item.valor_item }} </td>
+                  <td style="text-align : left;">{{ itempedido.tipo_de_servico }} R$ {{ itempedido.tipo_de_servico.valor_servico }}</td>
+                  <td style="text-align : center;">{{ itempedido.quantidade}} </td>
+                  <td style="text-align : center;">{{ itempedido.valor_item_pedido }}</td>
+                  <td style="text-align : center;">{{ itempedido.valor_item_pedido_qtd }}</td>
+                  <td style="text-align : center;"><i class="fa fa-remove" style="font-size: 13px;"><i/> &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp <i class="fa fa-edit" style="font-size: 12px"> </i></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+              </tfoot>
+              </table></div></div>
+              <div class="float-lg-right" style="margin-left: 70%;">
+                <p><strong>Valor Total do Pedido: </strong></p>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+          <div class="box-footer">
+              <!-- phone mask -->
+              </div>
+              <!-- /.row -->
+            </div>
+
+            </div>
+            <!-- /.box-body -->
+
+          </div>
+
+
+</div>
+        
+</div>
+
+
+
+</div>
+{% endblock %}

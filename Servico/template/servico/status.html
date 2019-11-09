@@ -1,0 +1,95 @@
+{% extends 'base_logado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block title %}  {% endblock %}
+{% block sidebar %}
+<!-- Sidebar user panel (optional) -->
+                {% if not user.is_superuser %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p>{{user.cliente.nome_cliente}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p style="font-size: 12px;">{{user.first_name}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- search form (Optional) -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                {% if user.is_superuser %}
+  <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li class="active"><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% else %}
+        <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
+          <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li class="active"><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% endif %}
+
+{% endblock %}
+{% block main %}
+
+
+<h3> Status do Pedido </h3>
+
+<div class="row">
+<div class="col-md-6 col-md-offset-3">
+<div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Pesquise seu Pedido</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="{% url 'busca_por_status' %}">
+              {% csrf_token %} {{ form.errors }}
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-7 control-label">Digite o Código ou a Data do Pedido</label>
+                  <div class="col-sm-4">
+                    <input type="number" class="form-control" id="search-codigo" name="numero_pedido" placeholder="">
+                  </div>
+                </div>
+                </div>
+              <div class="box-footer">
+                <a href="{% url 'inicial' %}" class="btn btn-warning">Voltar</a>
+                <button type="submit" class="btn btn-info pull-right">Pesquisar</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          </div>
+              <!-- /.box-body -->
+
+</div>
+{% endblock %}

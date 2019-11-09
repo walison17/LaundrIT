@@ -20,10 +20,15 @@ from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
 
+from Servico.views import inicial
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name='home/login.html'), name='login'),
+    path('inicial/', inicial, name='inicial'),
     path('', include('Home.urls')),
+    path('servico/', include('Servico.urls')),
+    path('pedido/', include('Pedido.urls')),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
