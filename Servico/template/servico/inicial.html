@@ -1,0 +1,529 @@
+{% extends 'base_logado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block sidebar %}
+<!-- Sidebar user panel (optional) -->
+                {% if not user.is_superuser %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p>{{user.cliente.nome_cliente}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p style="font-size: 12px;">{{user.first_name}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- search form (Optional) -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                {% if user.is_superuser %}
+  <ul class="sidebar-menu" data-widget="tree">
+          <li class="active"><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% else %}
+      <ul class="sidebar-menu" data-widget="tree">
+          <li class="active"><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
+          <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% endif %}
+
+{% endblock %}
+
+{% block main %}
+{% if user.is_superuser %}
+<div class="row">
+{% include 'parciais/_messages.html' %}
+<div class="col-md-6">
+<div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Adicionar um novo Item/Preço</h3>
+            </div>
+            <div class="box-body">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_item' %}">
+            {% csrf_token %} {{ form.errors }}
+            <label>Nome do item:</label>
+              <div class="input-group">
+                <span class="input-group-addon"><img src={% static 'assets\icons\fashion.png' %}></span>
+                <input type="text" class="form-control" placeholder="Digite o nome do Item" name="nome_item" >
+              </div>
+              <br>
+              <label>Preço do Item:</label>
+              <div class="input-group">
+                <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
+                <input type="number" class="form-control" placeholder="Digite o preço do item" name="valor_item">
+              </div>
+            </div>
+            <div class="box-footer">
+                    <button type="submit" value="submit" class="btn btn-primary">Salvar Novo Item</button>
+                </div>
+            </form>
+            <!-- /.box-body -->
+          </div>
+</div>
+<div class="col-md-6">
+<div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Adicionar um novo Serviço</h3>
+            </div>
+            <div class="box-body">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_servico' %}">
+            {% csrf_token %} {{ form.errors }}
+            <label>Nome do Serviço:</label>
+              <div class="input-group">
+                <span class="input-group-addon"><img src={% static 'assets\icons\customer.png' %}></span>
+                <input type="text" class="form-control" placeholder="Digite o nome do Serviço" name="servico">
+              </div>
+              <br>
+              <label>Preço do Serviço:</label>
+              <div class="input-group">
+                <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
+                <input type="number" class="form-control" placeholder="Digite o preço do Serviço" name="valor_servico">
+              </div>
+            </div>
+            <div class="box-footer">
+                    <button type="submit" value="submit" class="btn btn-primary">Salvar Novo Serviço</button>
+                </div>
+            </form>
+            <!-- /.box-body -->
+          </div>
+    </div>
+
+    </div> <!-- ./row -->
+<div class="row">
+<div class="col-md-6">
+
+<div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Tabela de Itens</h3>
+              <div class="box-tools">
+                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody><tr>
+                  <th>ID</th>
+                  <th>Nome do Item</th>
+                  <th>Preço do Item</th>
+                </tr>
+                <tr>
+                {% for itens in itens %}
+                  <td>{{ itens.id }}</td>
+                  <td>{{ itens.nome_item }}</td>
+                  <td>{{ itens.valor_item }}</td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+                <ul class="pagination ">
+                    <li class="paginate_button previous disabled " id="example1_previous ">
+                        <a href="# " aria-controls="example1 " data-dt-idx="0 " tabindex="0 ">Anterior</a>
+                    </li>
+                    {% for pagina in itens.paginator.page_range %} {% if itens.number == pagina %}
+                    <li class="paginate_button active ">
+                        <a href="?p={{ pagina }}">{{ pagina }}</a></li>
+                    {% else %}
+                    <li class="paginate_button "><a class="page-link " href="?p={{ pagina }}">{{ pagina }}
+                    </a></li>
+                    {% endif %} {% endfor %}
+                    <li class="paginate_button next " id="example1_next "><a href="# " aria-controls="example1 " data-dt-idx="7 " tabindex="0 ">Próximo</a></li>
+                </ul>
+
+            </div>
+            <!-- /.box-body -->
+          </div>  
+
+</div>
+
+<div class="col-md-6">
+
+<div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Tabela de Serviços</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody><tr>
+                  <th>ID</th>
+                  <th>Nome do Serviço</th>
+                  <th>Valor de Serviço</th>
+                </tr>
+                <tr>
+                {% for servico in servico %}
+                  <td>{{ servico.id }}</td>
+                  <td>{{ servico.servico }}</td>
+                  <td>{{ servico.valor_servico }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+               <ul class="pagination ">
+                    <li class="paginate_button previous disabled " id="example1_previous ">
+                        <a href="# " aria-controls="example1 " data-dt-idx="0 " tabindex="0 ">Anterior</a>
+                    </li>
+                    {% for pagina in servico.paginator.page_range %} {% if servico.number == pagina %}
+                    <li class="paginate_button active ">
+                        <a href="?p={{ pagina }}">{{ pagina }}</a></li>
+                    {% else %}
+                    <li class="paginate_button "><a class="page-link " href="?p={{ pagina }}">{{ pagina }}
+                    </a></li>
+                    {% endif %} {% endfor %}
+                    <li class="paginate_button next " id="example1_next "><a href="# " aria-controls="example1 " data-dt-idx="7 " tabindex="0 ">Próximo</a></li>
+                </ul>
+
+             
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+</div>
+
+
+</div><!-- ./row -->
+
+
+
+<div class="row">
+<div class="col-xs-12">
+
+<div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Adicionar um novo Usuário Administrador</h3>
+            </div>
+            <div class="box-body">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_usuario' %}" >
+            {% csrf_token %} {{ form.errors }}
+              <!-- dividindo na tela -->
+              <div class="col-md-6">
+              <div class="form-group">
+                <label>Nome do Administrador:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" name="nome" id="nome_administrador">
+                </div>
+                </div> <!-- col-md-3 -->
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+
+              <div class="col-md-6">
+              <div class="form-group">
+                <label>E-mail do Administrador:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-envelope-o"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" name="email" id="email_administrador">
+                </div>
+                </div> <!-- col-md-3 -->
+                <!-- /.input group -->
+              </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Registrar Login:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-user-secret"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" name="usuario" id="usuario_administrador">
+                </div>
+                </div> <!-- col-md-3 -->
+                <!-- /.input group -->
+              </div>
+
+             <div class="col-md-4">
+              <div class="form-group">
+                <label>Digite a Senha:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <input type="password" class="form-control pull-right" name="senha" id="senha_administrador">
+                </div>
+                </div> <!-- col-md-3 -->
+                <!-- /.input group -->
+              </div>
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>Confirme a Senha:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <input type="password" class="form-control pull-right" name="senha2" id="senha_administrador2">
+                </div>
+                </div> <!-- col-md-3 -->
+                <!-- /.input group -->
+              </div>
+            </div>
+            <div class="box-footer">
+                    <button type="submit" value="submit" class="btn btn-primary">Salvar Novo Administrador</button>
+                </div>
+                 </form>
+            <!-- /.box-body -->
+          </div>
+
+</div>
+</div>
+{% else %}
+
+<div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h5>Fazer um Pedido</h5>
+
+              <p>&nbsp</p>
+            </div>
+            <div class="icon">
+              <i class="fa  fa-reorder "></i>
+            </div>
+            <a href="{% url 'pedidos_usuario' %}" class="small-box-footer">
+            Clique aqui <i class="fa fa-hand-pointer-o"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h5>Visualizar Histórico de Pedidos</h5>
+
+              <p>&nbsp</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-history"></i>
+            </div>
+            <a href="{% url 'historico' %}" class="small-box-footer">
+              Clique aqui <i class="fa fa-hand-pointer-o"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h5>Status de Pedido</h5>
+
+              <p>&nbsp</p>
+            </div>
+            <div class="icon">
+              <i class="fa  fa-retweet"></i>
+            </div>
+            <a href="{% url 'status_usuario' %}" class="small-box-footer">
+              Clique aqui <i class="fa fa-hand-pointer-o"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h5>Suporte</h5>
+
+              <p>&nbsp</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <a href="{% url 'suporte' %}" class="small-box-footer">
+              Clique aqui <i class="fa fa-hand-pointer-o"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+    
+<div class="col-xs-6">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Pedidos Ativos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead>
+                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Rendering engine</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Browser</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Platform(s)</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Engine version</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">CSS grade</th></tr>
+                </thead>
+                <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label></div>
+                <tbody>
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                  <td>Firefox 1.0</td>
+                  <td>Win 98+ / OSX.2+</td>
+                  <td>1.7</td>
+                  <td>A</td>
+                </tr><tr role="row" class="even">
+                  <td class="sorting_1">Gecko</td>
+                  <td>Mozilla 1.0</td>
+                  <td>Win 95+ / OSX.1+</td>
+                  <td>1</td>
+                  <td>A</td>
+                </tr></tbody>
+                <tfoot>
+                </tfoot>
+              </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+          </div>
+
+          <div class="col-xs-6">
+          <div class="box box-primary">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">CheckList de itens feitos.</h3>
+
+              <div class="box-tools pull-right">
+                <ul class="pagination pagination-sm inline">
+                  <li><a href="#">«</a></li>
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">»</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list ui-sortable">
+                <li>
+                  <!-- drag handle -->
+                  <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                <li>
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <input type="checkbox" value="">
+                  <span class="text">Make the theme responsive</span>
+                  <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                <li>
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <input type="checkbox" value="">
+                  <span class="text">Let theme shine like a star</span>
+                  <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                <li class="">
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <input type="checkbox" value="">
+                  <span class="text">Let theme shine like a star</span>
+                  <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                <li class="">
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <input type="checkbox" value="">
+                  <span class="text">Check your messages and notifications</span>
+                  <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                <br>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+            </div>
+          </div>
+          </div>
+
+          </div>
+{% endif %}
+
+
+{% endblock %}
