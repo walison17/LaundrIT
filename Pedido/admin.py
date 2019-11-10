@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Pedido, Item
+from .models import Pedido, Item, Roupa, Status
 
 
 class ItemInline(admin.TabularInline):
@@ -20,5 +20,18 @@ class PedidoAdmin(admin.ModelAdmin):
         super().save_related(request, form, formsets, change)
 
         if not change:
-            form.instance.amount = form.instance.calculate_amount()
+            form.instance.amount = form.instance.calcular_valor()
             form.save()
+
+@admin.register(Roupa)
+class Roupa(admin.ModelAdmin):
+    model = Roupa
+    list_display = ['nome_peca', 'preco']
+    readonly_fields = ['created', 'modified']
+
+@admin.register(Status)
+class Status(admin.ModelAdmin):
+    model = Status
+    list_display = ['descricao', 'status_pedido', 'data_postagem']
+    
+

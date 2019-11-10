@@ -5,20 +5,35 @@ from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.shortcuts import get_list_or_404, get_object_or_404
 from django.db.models import Q, Value
 from django.contrib.auth.models import User
 from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from Servico.models import Servico
-from .models import Pedido, Item
+from .models import Pedido, Item, Status
 
-from .forms import PedidoForm, ItemForm
+from .forms import PedidoForm, ItemForm, StatusForm
 from Servico.forms import ServicoForm
 
 # Create your views here.
 
 
 # --- admin... ---
+def pedido_comentar_status(request, id):
+    if request.user.is_superuser:
+        status = get_object_or_404(Status, pk=id)
+        form = StatusForm(request.POST or None, request.FILES or None, instance=status)
+
+        if form.is_valid():
+            form.save()
+            return redirect('administrador_status')
+        return render(request, 'servico/status_comentar_admin.html', {
+            'form': form
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
+
 def pedidos_admin(request):
     return render(request, 'pedido/pedidos_admin.html')
 
@@ -30,4 +45,5 @@ def adicionar_item(request):
 
 def update_item(request):
     return render(request, 'pedido/pedidos.html')
+
     

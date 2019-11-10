@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.http import HttpResponse
@@ -10,9 +10,9 @@ from django.contrib.auth.models import User
 from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from .models import Servico
-from Pedido.models import Pedido, Item
+from Pedido.models import Pedido, Item, Roupa
 
-from Pedido.forms import PedidoForm, ItemForm
+from Pedido.forms import PedidoForm, ItemForm, RoupaForm
 from .forms import ServicoForm
 
 
@@ -21,22 +21,198 @@ from .forms import ServicoForm
 
 
 def inicial(request):
-    return render(request, 'servico/inicial.html')
+    cliente = Cliente.objects.all()
+    roupas = Roupa.objects.all().order_by('-id')
+    servico = Servico.objects.all().order_by('-id')
+    paginator_roupa = Paginator(roupas, 3)
+    paginator_servico = Paginator(servico, 3)
+    roupa = paginator_roupa.get_page('p')
+    servico = paginator_roupa.get_page('q')
+    return render(request, 'servico/inicial.html', {
+        'roupas': roupas,
+        'servico': servico,
+    })
 
-def pedido_comentar_status(request, id):
-    return render(request, 'servico/status_comentar_admin.html')
 
 def administrador_status(request):
-    return render(request, 'servico/status_admin.html')
+    if request.user.is_superuser:
+        cliente = Cliente.objects.all()
+        roupas = Roupa.objects.all()
+        servico = Servico.objects.all()
+        pedido = Pedido.objects.all()
+        return render(request, 'servico/status_admin.html', {
+            'cliente': cliente,
+            'roupas': roupas,
+            'servico': servico,
+            'pedido': pedido,
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
 
 def administrador_usuario(request):
-    return render(request, 'servico/inicial.html')
+    if request.method != 'POST':
+        return render(request, 'servico/inicial.html')
+    if request.user.is_superuser:
+        nome = request.POST.get('nome', None)
+        email = request.POST.get('email', None)
+        usuario = request.POST.get('usuario', None)
+        senha = request.POST.get('senha', None)
+        senha2 = request.POST.get('senha2', None)
+
+        roupas = Roupa.objects.all().order_by('-id')
+        servico = Servico.objects.all().order_by('-id')
+        paginator_roupa = Paginator(roupas, 3)
+        paginator_servico = Paginator(servico, 3)
+        roupa = paginator_roupa.get_page('p')
+        servico = paginator_roupa.get_page('q')
+        
+        if not nome or not email or not usuario or not senha or not senha2:
+            messages.error(request, 'Nenhum campo pode estar vazio.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        
+        try:
+            validate_email(email)
+        except:
+            messages.error(request, 'E-mail Inválido')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'E-mail já cadastrado.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+
+        if len(senha) < 6:
+            messages.error(
+                request, 'Erro! a senha não pode ser menor que 6 caracteres')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+
+        if len(usuario) < 6:
+            messages.error(request, 'Usuário precisa ter 6 caracteres ou mais.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        
+        if User.objects.filter(username=usuario).exists():
+            messages.error(request, 'Usuário já existe.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+
+        if senha != senha2:
+            messages.error(request, 'Senhas não conferem.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        
+        user = User.objects.create_user(username=usuario, email=email,
+        first_name=nome, password=senha, is_superuser = True)
+        user.save()
+
+        messages.success(
+            request, f' Registrado com sucesso! agora {user.username} é um administrador ')
+        return render(request, 'servico/inicial.html', {
+            'roupas': roupas,
+            'servico': servico,
+        })
+
+        return render(request, 'servico/inicial.html', {
+            'roupas': roupas,
+            'servico': servico,
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
+
 
 def administrador_item(request):
-    return render(request, 'servico/inicial.html')
+    if request.method != 'POST':
+        return render(request, 'servico/inicial.html')
+    if request.user.is_superuser:
+        roupas = Roupa.objects.all().order_by('-id')
+        servico = Servico.objects.all().order_by('-id')
+        paginator_roupa = Paginator(roupas, 3)
+        paginator_servico = Paginator(servico, 3)
+        roupa = paginator_roupa.get_page('p')
+        servico = paginator_roupa.get_page('q')
+
+        form_roupa = RoupaForm(request.POST or None, request.FILES or None)
+
+        nome_item = request.POST.get('nome_item', None)
+
+        if form_roupa.is_valid():
+            form_roupa.save()
+            messages.success(
+                request, f'Item cadastrado com sucesso!')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        
+        if not form_roupa.is_valid():
+            messages.error(
+                request, f' Campos não podem estar vazios.')
+            return render(request, 'servico/inicial.html', {
+                'roupas': roupas,
+                'servico': servico,
+            })
+        return render(request, 'servico/inicial.html', {
+            'roupas': roupas,
+            'servico': servico,
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
 
 def administrador_servico(request):
-    return render(request, 'servico/inicial.html')
+    if request.method != 'POST':
+        return render(request, 'servico/inicial.html')
+    if request.user.is_superuser:
+        roupas = Roupa.objects.all().order_by('-id')
+        servico = Servico.objects.all().order_by('-id')
+        paginator_roupa = Paginator(roupas, 3)
+        paginator_servico = Paginator(servico, 3)
+        roupa = paginator_roupa.get_page('p')
+        servico = paginator_roupa.get_page('q')
+
+        form_servico = ServicoForm(request.POST or None, request.FILES or None)
+
+        nome_servico = request.POST.get('servico', None)
+
+        if form_servico.is_valid():
+            form_servico.save()
+            messages.success(
+                request, f'Serviço cadastrado com sucesso!')
+            return render(request, 'servico/inicial.html', {
+                'roupas':roupas,
+                'servico': servico,
+            })
+        
+        if not form_servico.is_valid():
+            messages.error(
+                request, f' Campos não podem estar vazios.')
+            return render(request, 'servico/inicial.html', {
+            'roupas':roupas,
+            'servico': servico,
+        })
+        
+        return render(request, 'servico/inicial.html', {
+            'roupas':roupas,
+            'servico': servico,
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
 
 
 def historico_admin(request):
