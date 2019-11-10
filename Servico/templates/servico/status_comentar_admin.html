@@ -73,24 +73,38 @@
             {% csrf_token %} {{ form.errors }}
               <form role="form">
 
-              <div class="col-md-9">
-                <div class="form-group">
-                  <label>Descrição Status</label>
-                  <textarea style="resize: none;" class="form-control" rows="3" placeholder="Comentário sobre o Pedido" spellcheck="false"></textarea>
-                </div>
-                </div>
-
-            <div class="col-md-4">
+              <div class="col-md-3">
             <div class="form-group">
-            <label>Status Pedido</label>
-            <select class="form-control" name="tipo_de_servico" id="tipo_de_servico">
+            <label>Número do Pedido</label>
+            <select class="form-control" name="status_pedido" id="status_pedido">
             <option value>------------------------------</option>
-            <option id="" value="" name="tipo_de_servico">TESTEW1</option>
+            {% for status in status.all %}
+            <option id="status.pedido" value="{{ status.pedido.id }}" name="status.pedido">{{ status.pedido.id }}</option>
+            {% endfor %}
             </select>
             </div>
             </div>
 
-            <div class="col-md-4">
+              <div class="col-md-9">
+                <div class="form-group">
+                  <label>Descrição Status</label>
+                  <textarea style="resize: none;" class="form-control" rows="3" name="comentario" id="comentario" placeholder="Comentário sobre o Pedido" spellcheck="false"></textarea>
+                </div>
+                </div>
+
+            <div class="col-md-3">
+            <div class="form-group">
+            <label>Status Pedido</label>
+            <select class="form-control" name="situacao_pedido" id="situacao_pedido">
+            <option value>------------------------------</option>
+            {% for PEDIDO_ATIVO, PEDIDO_FINALIZADO, PEDIDO_CANCELADO in form.status.situacao_pedido.choices %}
+            <option id="situacao_pedido" value="{{ situacao_pedido }}" name="situacao_pedido">{{ situacao_pedido }}</option>
+            {% endfor %}
+            </select>
+            </div>
+            </div>
+
+            <div class="col-md-3">
             <div class="form-group">
                 <label>Data do Comentário:</label>
 
@@ -98,7 +112,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
+                  <input type="date" class="form-control" id="data_comentario" name="data_comentario" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
                 </div>
                 <!-- /.input group -->
               </div>

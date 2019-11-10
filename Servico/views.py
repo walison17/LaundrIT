@@ -188,17 +188,37 @@ def status_admin(request):
 def status_comentar_status(request, id):
     if request.user.is_superuser:
         pedido = get_object_or_404(Pedido, pk=id)
-        form = StatusForm(request.POST or None, request.FILES or None, instance=Pedido)
+        status = Status.objects.all()
+        print(status)
+        form = StatusForm(request.POST or None, request.FILES or None, instance=Status)
 
         if form.is_valid():
             form.save()
             return redirect('administrador_status')
         return render(request, 'servico/status_comentar_admin.html', {
-            'form': form
+            'form': form,
+            'status': status,
         })
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
+def criar_status(request, id):
+    if request.user.is_superuser:
+
+        pedido = request.GET.get('pedido', None)
+        status = Status.objects.all()
+        form = StatusForm(request.POST or None, request.FILES or None, instance=Status)
+        print(status)
+
+        if form.is_valid():
+            form.save()
+            return redirect('administrador_status')
+        return render(request, 'servico/status_comentar_admin.html', {
+            'form': form,
+            'status': status,
+        })
+    else:
+        return HttpResponse("Acesso Negado!")
 
 def suporte_admin(request):
     return render(request, 'servico/suporte_admin.html')
