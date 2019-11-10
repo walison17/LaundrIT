@@ -5,6 +5,8 @@ from django.utils import timezone
 
 from model_utils.models import TimeStampedModel, UUIDModel
 
+from Home.models import Cliente 
+
 # Create your models here.
 
 class Status(models.Model):
@@ -25,6 +27,12 @@ class Status(models.Model):
     )
 
 class Pedido(UUIDModel, TimeStampedModel):
+    solicitante = models.ForeignKey(Cliente,
+        max_length=50,
+        verbose_name="Nome Cliente",
+        related_name = 'solicitante',
+        on_delete = models.CASCADE)
+
     valor_total = models.DecimalField(
         'Valor Total',
         max_digits=7,
@@ -34,6 +42,8 @@ class Pedido(UUIDModel, TimeStampedModel):
     )
     status = models.ForeignKey(
         Status,
+        null=True,
+        blank=True,
         verbose_name = 'Status',
         related_name = 'status',
         on_delete = models.CASCADE
@@ -98,6 +108,6 @@ class Item(TimeStampedModel):
         return f'{self.quantidade} x {self.servico} + {self.roupa}'
 
     def save(self, *args, **kwargs):
-        self.preco_unitario =  self.quantidade * (self.servico.preco + self.roupa.preco)
+        self.preco_unitario =  self.quantidade * (self.servico.preco_servico + self.roupa.preco_roupa)
         return super().save(*args, **kwargs)
 
