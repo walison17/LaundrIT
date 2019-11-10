@@ -80,6 +80,7 @@
               <table class="table table-hover">
                 <tbody>
                 <tr>
+                <th> </th>
                   <th>Código</th>
                   <th>Nome do Cliente</th>
                   <th>Data da Solicitação</th>
@@ -89,15 +90,18 @@
                   <th>Status</th>
                 </tr>
                   <tr> 
+                  {% for pedido in pedido %}
                   <td><a href="#" class="edit-status" >
-                  <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a>  &nbsp 1001</td>
-                  <td>Claudiao</td>
-                  <td>22/02/2019</td>
-                  <td>23/02/2019</td>
-                  <td>1500</td>
-                  <td> Á Vista </td>
-                  <td>ATIVO</td>             
+                  <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a></td>
+                  <td>{{ pedido.id }}</td>
+                  <td>{{ pedido.solicitante }}</td>
+                  <td>{{ pedido.data_solicitacao }}</td>
+                  <td>{{ pedido.data_entrega }}</td>
+                  <td>{{ pedido.valor_total }}</td>
+                  <td>{{ pedido.pagamento }}</td>
+                  <td>{{ pedido.status }}</td>             
                 </tr>
+                {% endfor %}
               </tbody></table>
             </div>
             <!-- /.box-body -->

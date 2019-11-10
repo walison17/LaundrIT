@@ -13,7 +13,7 @@ class ItemInline(admin.TabularInline):
 class PedidoAdmin(admin.ModelAdmin):
     model = Pedido
     inlines = [ItemInline]
-    list_display = ['id', 'status', 'valor_total', 'created']
+    list_display = ['id', 'status', 'valor_total', 'pagamento', 'created', 'data_solicitacao', 'data_entrega']
     readonly_fields = ['valor_total', 'created', 'modified']
 
     def save_related(self, request, form, formsets, change):
@@ -32,6 +32,6 @@ class Roupa(admin.ModelAdmin):
 @admin.register(Status)
 class Status(admin.ModelAdmin):
     model = Status
-    list_display = ['descricao', 'status_pedido', 'data_postagem']
+    list_display = ['comentario', 'data_comentario', 'status_pedido']
     
 

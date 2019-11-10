@@ -20,22 +20,21 @@ from Servico.forms import ServicoForm
 
 
 # --- admin... ---
-def pedido_comentar_status(request, id):
-    if request.user.is_superuser:
-        status = get_object_or_404(Status, pk=id)
-        form = StatusForm(request.POST or None, request.FILES or None, instance=status)
-
-        if form.is_valid():
-            form.save()
-            return redirect('administrador_status')
-        return render(request, 'servico/status_comentar_admin.html', {
-            'form': form
-        })
-    else:
-        return HttpResponseNotFound("Acesso Negado!")
 
 def pedidos_admin(request):
-    return render(request, 'pedido/pedidos_admin.html')
+    cliente = Cliente.objects.all()
+    roupas = Roupa.objects.all()
+    pedido = Pedido.objects.all()
+    servico =  Servico.objects.all()
+    status = Status.objects.all()
+
+    return render(request, 'pedido/pedidos_admin.html', {
+            'cliente': cliente,
+            'roupas': roupas,
+            'status': status,
+            'pedido': pedido,
+            'servico': servico,
+                })
 
 def pedidos_usuario(request):
     cliente = Cliente.objects.all()

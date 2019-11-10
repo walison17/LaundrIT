@@ -60,4 +60,59 @@
 {% endblock %}
 {% block main %}
 
+
+
+<div class="col-xs-8 col-md-offset-2">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Insira uma descrição para o Status do Pedido</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            <form method="POST" enctype="multipart/form-data" action="#">
+            {% csrf_token %} {{ form.errors }}
+              <form role="form">
+
+              <div class="col-md-9">
+                <div class="form-group">
+                  <label>Descrição Status</label>
+                  <textarea style="resize: none;" class="form-control" rows="3" placeholder="Comentário sobre o Pedido" spellcheck="false"></textarea>
+                </div>
+                </div>
+
+            <div class="col-md-4">
+            <div class="form-group">
+            <label>Status Pedido</label>
+            <select class="form-control" name="tipo_de_servico" id="tipo_de_servico">
+            <option value>------------------------------</option>
+            <option id="" value="" name="tipo_de_servico">TESTEW1</option>
+            </select>
+            </div>
+            </div>
+
+            <div class="col-md-4">
+            <div class="form-group">
+                <label>Data do Comentário:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
+
+            </div>
+            <div class="box-footer">
+                    <button type="submit" value="submit" class="btn btn-primary">Salvar Novo Status</button>
+                    <a class="btn btn-warning" href="{% url 'status_admin' %}" role="button">Voltar</a>
+                </div>
+                 </form>
+            <!-- /.box-body -->
+          </div>
+          
+
+
 {% endblock %}

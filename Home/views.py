@@ -23,7 +23,6 @@ def my_logout(request):
     return redirect('home/home.html')  
 
 def cadastro(request):
-    print(request.POST)
 
     if request.method != 'POST':
         return render(request, 'home/cadastro.html')

@@ -11,27 +11,45 @@ from Home.models import Cliente
 
 class Status(models.Model):
     id = models.AutoField(primary_key=True)
-    PEDIDO_REALIZADO = 0
-    CONCLUIDO = 1
-    CANCELADO = 2
+    PEDIDO_ATIVO = 'Pedido Ativo'
+    PEDIDO_FINALIZADO = 'Pedido Finalizado'
+    PEDIDO_CANCELADO = 'Pedido Cancelado'
     STATUS =(
-        (PEDIDO_REALIZADO, 'Pedido Realizado'),
-        (CONCLUIDO, 'Concluído'),
-        (CANCELADO, 'Cancelado')
+        (PEDIDO_ATIVO, 'Pedido Ativo'),
+        (PEDIDO_FINALIZADO, 'Pedido Finalizado'),
+        (PEDIDO_CANCELADO, 'Pedido Cancelado')
     )
-    descricao = models.CharField(max_length=150, verbose_name="Descrição")
-    data_postagem = models.DateTimeField(
-        default=timezone.now, verbose_name="Data da Postagem")
-    status_pedido = models.PositiveSmallIntegerField(
-        'Situação', choices=STATUS, default=PEDIDO_REALIZADO
-    )
+    comentario = models.TextField(null=True, blank=True, verbose_name="Comentar Status")
+    status_pedido = models.CharField(
+        'Situação', max_length=50, choices=STATUS, default=PEDIDO_ATIVO)
+    data_comentario = models.DateTimeField(default=timezone.now, verbose_name="Data do Comentario")
+
+    def __str__(self):
+        return 'id : %s status: %s '% (self.id, self.status_pedido)
+
 
 class Pedido(UUIDModel, TimeStampedModel):
+    BOLETO = 'Boleto Bancário'
+    CARTAO_DEBITO = 'Cartão de Debíto'
+    CARTAO_CREDITO = 'Cartão de Credito'
+    TRANSFERENCIA = 'Transferencia Bancária'
+    PAGAMENTO =(
+        (BOLETO, 'Boleto Bancário'),
+        (CARTAO_DEBITO, 'Cartão de Debíto'),
+        (CARTAO_CREDITO, 'Cartão de Credito'),
+        (TRANSFERENCIA, 'Transferencia Bancária')
+    )
+    id = models.AutoField(primary_key=True)
     solicitante = models.ForeignKey(Cliente,
         max_length=50,
         verbose_name="Nome Cliente",
         related_name = 'solicitante',
         on_delete = models.CASCADE)
+    
+    data_solicitacao = models.DateTimeField(
+        default=timezone.now, verbose_name="Data da Postagem")
+    data_entrega = models.DateTimeField(default=timezone.now, verbose_name="Data de Entrega"
+    )
 
     valor_total = models.DecimalField(
         'Valor Total',
@@ -48,7 +66,7 @@ class Pedido(UUIDModel, TimeStampedModel):
         related_name = 'status',
         on_delete = models.CASCADE
     )
-
+    pagamento = models.CharField('Pagamento', max_length=50, choices=PAGAMENTO, default=BOLETO, null=False, blank=False)
     class Meta:
         verbose_name = 'pedido'
         verbose_name_plural = 'pedidos'

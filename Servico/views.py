@@ -10,9 +10,9 @@ from django.contrib.auth.models import User
 from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from .models import Servico
-from Pedido.models import Pedido, Item, Roupa
+from Pedido.models import Pedido, Item, Roupa, Status
 
-from Pedido.forms import PedidoForm, ItemForm, RoupaForm
+from Pedido.forms import PedidoForm, ItemForm, RoupaForm, StatusForm
 from .forms import ServicoForm
 
 
@@ -33,21 +33,6 @@ def inicial(request):
         'servico': servico,
     })
 
-
-def administrador_status(request):
-    if request.user.is_superuser:
-        cliente = Cliente.objects.all()
-        roupas = Roupa.objects.all()
-        servico = Servico.objects.all()
-        pedido = Pedido.objects.all()
-        return render(request, 'servico/status_admin.html', {
-            'cliente': cliente,
-            'roupas': roupas,
-            'servico': servico,
-            'pedido': pedido,
-        })
-    else:
-        return HttpResponseNotFound("Acesso Negado!")
 
 def administrador_usuario(request):
     if request.method != 'POST':
@@ -186,7 +171,34 @@ def historico_admin(request):
     return render(request, 'servico/historico_admin.html')
 
 def status_admin(request):
-    return render(request, 'servico/status_admin.html')
+    if request.user.is_superuser:
+        cliente = Cliente.objects.all()
+        roupas = Roupa.objects.all()
+        servico = Servico.objects.all()
+        pedido = Pedido.objects.all()
+        return render(request, 'servico/status_admin.html', {
+            'cliente': cliente,
+            'roupas': roupas,
+            'servico': servico,
+            'pedido': pedido,
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
+
+def status_comentar_status(request, id):
+    if request.user.is_superuser:
+        pedido = get_object_or_404(Pedido, pk=id)
+        form = StatusForm(request.POST or None, request.FILES or None, instance=Pedido)
+
+        if form.is_valid():
+            form.save()
+            return redirect('administrador_status')
+        return render(request, 'servico/status_comentar_admin.html', {
+            'form': form
+        })
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
+
 
 def suporte_admin(request):
     return render(request, 'servico/suporte_admin.html')
