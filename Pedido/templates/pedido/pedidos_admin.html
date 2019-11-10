@@ -1,7 +1,7 @@
 {% extends 'base_logado.html' %}
 {% load static %}
 {% load bootstrap %}
-{% block title %} {% endblock %}
+{% block title %}  {% endblock %}
 {% block sidebar %}
 <!-- Sidebar user panel (optional) -->
                 {% if not user.is_superuser %}
@@ -42,50 +42,28 @@
                 {% if user.is_superuser %}
   <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
-          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li class="active"><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li class="active"><a href="{% url 'pedidos_admin' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_admin' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% else %}
-       <ul class="sidebar-menu" data-widget="tree">
+        <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
-          <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li class="active"><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li class="active"><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
           <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% endif %}
 
 {% endblock %}
-
 {% block main %}
-<div class="row">
-<div class="col-md-12">
-<h3>Histórico de Pedidos</h3>
-<div class="col-md-6">
-<div class="btn-group">
-                  <button type="button" class="btn btn-info">Filtro de Pedidos</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Pedidos Ativos</a></li>
-                    <li><a href="#">Pedidos Finalizados</a></li>
-                    <li><a href="#">Pedidos Cancelados</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Ver Todos os Pedidos</a></li>
-                  </ul>
-                </div>
 
-</div>
-<br>
-<br>
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
+              <h3 class="box-title">Status Pedidos Ativos</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -100,18 +78,25 @@
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
-                <tbody><tr>
-                  <th>Codigo</th>
+                <tbody>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome do Cliente</th>
                   <th>Data da Solicitação</th>
                   <th>Data de Entrega</th>
                   <th>Valor</th>
                   <th>Pagamento</th>
+                  <th>Status</th>
                 </tr>
-                  <td>175</td>
-                  <td>24/07/2019</td>
-                  <td>24/08/2019</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                  <tr> 
+                  <td><a href="#" class="edit-status" >
+                  <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a>  &nbsp 1001</td>
+                  <td>Claudiao</td>
+                  <td>22/02/2019</td>
+                  <td>23/02/2019</td>
+                  <td>1500</td>
+                  <td> Á Vista </td>
+                  <td>ATIVO</td>             
                 </tr>
               </tbody></table>
             </div>
@@ -119,11 +104,5 @@
           </div>
           <!-- /.box -->
         </div>
-
-
-
-</div>
-</div>
-
 
 {% endblock %}

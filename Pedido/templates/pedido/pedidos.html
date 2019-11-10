@@ -40,19 +40,19 @@
                 <!-- /.search form -->
   <ul class="sidebar-menu" data-widget="tree">
             {% if user.is_superuser %}
-          <li class="active"><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
-          <li class="active"><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li class="active"><a href="{% url 'pedidos_admin' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_admin' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
           {% else %}
           <ul class="sidebar-menu" data-widget="tree">
-          <li><a href="{% url 'inicial' %}"><i class="fa fa-file-text-o"></i> <span>DASHBOARD</span></a></li>
+          <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
           <li class="active"><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
           <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% endif %}
 {% endblock %}
@@ -185,7 +185,7 @@
               <h3 class="box-title">Fazer Pedidos</h3>
             </div>
             <!-- /.box-header -->
-            <form method="POST" enctype="multipart/form-data" action="{% url 'adicionar_item' %}">
+            <form method="POST" enctype="multipart/form-data" action="#">
             {% csrf_token %} {{ form.errors }}
             <div class="box-body">
               <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
@@ -203,15 +203,15 @@
   <td class="table-info " style="text-align : left;"><div class="input-group">
   <select class="form-control" name="nome_item" id="nome_item">
     <option value>------------------------------</option>
-    {% for nome_item in item.all %}
-    <option id="item" value="{{ nome_item.id }}" name="nome_item">{{ nome_item }}</option>
-    {% endfor %}
+    <!-- {% for nome_item in item.all %} -->
+    <option id="" value="" name="nome_item">TESTE</option>
+    <!-- {% endfor %} -->
    </div></td>
                         <td class="table-info " style="text-align : left;"><div class="input-group">
                         <select class="form-control" name="tipo_de_servico" id="tipo_de_servico">
     <option value>------------------------------</option>
-    {% for tipo_de_servico in servico.all %}
-    <option id="servico" value="{{ tipo_de_servico.id }}" name="tipo_de_servico">{{ tipo_de_servico }}</option>
+    <!-- {% for tipo_de_servico in servico.all %} -->
+    <option id="" value="" name="tipo_de_servico">TESTEW1</option>
     {% endfor %}
     </div> </td>
                         <td class="table-info " style="text-align : left;"><div class="input-group">
@@ -227,15 +227,15 @@
                 </form>
                 <tbody>        
                 <tr role="row" class="odd">
-                {% for itempedido in itempedido %}
-                  <td style="text-align : left;">{{ itempedido.nome_item }} R${{ itempedido.nome_item.valor_item }} </td>
-                  <td style="text-align : left;">{{ itempedido.tipo_de_servico }} R$ {{ itempedido.tipo_de_servico.valor_servico }}</td>
-                  <td style="text-align : center;">{{ itempedido.quantidade}} </td>
-                  <td style="text-align : center;">{{ itempedido.valor_item_pedido }}</td>
-                  <td style="text-align : center;">{{ itempedido.valor_item_pedido_qtd }}</td>
+                <!-- {% for itempedido in itempedido %} -->
+                  <td style="text-align : left;">NOME ITEM R$ VALOR ITEM </td>
+                  <td style="text-align : left;">TIPO DO SERVICO R$ VALOR DO SERVICO</td>
+                  <td style="text-align : center;">QUANTIDADE  </td>
+                  <td style="text-align : center;">VALOR UNITARIO</td>
+                  <td style="text-align : center;">VALOR TOTAL</td>
                   <td style="text-align : center;"><i class="fa fa-remove" style="font-size: 13px;"><i/> &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp <i class="fa fa-edit" style="font-size: 12px"> </i></td>
                   </tr>
-                  {% endfor %}
+                  <!-- {% endfor %} -->
                 </tbody>
                 <tfoot>
               </tfoot>

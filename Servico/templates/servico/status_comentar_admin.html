@@ -42,18 +42,18 @@
                 {% if user.is_superuser %}
   <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
-          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li class="active"><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'pedidos_admin' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li class="active"><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_admin' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% else %}
         <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
           <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
           <li class="active"><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% endif %}
 

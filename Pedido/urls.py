@@ -10,4 +10,4 @@ urlpatterns = [
     path('adicionar_item/', adicionar_item, name='adcionar_item'),
     path('update_item/', update_item, name='update_item'),
     
-] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

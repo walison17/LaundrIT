@@ -41,18 +41,18 @@
                 {% if user.is_superuser %}
   <ul class="sidebar-menu" data-widget="tree">
           <li class="active"><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
-          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href={% url 'pedidos_admin' %}><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_admin' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% else %}
       <ul class="sidebar-menu" data-widget="tree">
           <li class="active"><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
           <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
           <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% endif %}
 
@@ -68,18 +68,18 @@
               <h3 class="box-title">Adicionar um novo Item/Preço</h3>
             </div>
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_item' %}">
+            <form method="POST" enctype="multipart/form-data" action="#">
             {% csrf_token %} {{ form.errors }}
             <label>Nome do item:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\fashion.png' %}></span>
-                <input type="text" class="form-control" placeholder="Digite o nome do Item" name="nome_item" >
+                <input type="text" class="form-control" placeholder="Digite o nome do Item" >
               </div>
               <br>
               <label>Preço do Item:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
-                <input type="number" class="form-control" placeholder="Digite o preço do item" name="valor_item">
+                <input type="number" class="form-control" placeholder="Digite o preço do item" >
               </div>
             </div>
             <div class="box-footer">
@@ -95,18 +95,18 @@
               <h3 class="box-title">Adicionar um novo Serviço</h3>
             </div>
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_servico' %}">
+            <form method="POST" enctype="multipart/form-data" action="#">
             {% csrf_token %} {{ form.errors }}
             <label>Nome do Serviço:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\customer.png' %}></span>
-                <input type="text" class="form-control" placeholder="Digite o nome do Serviço" name="servico">
+                <input type="text" class="form-control" placeholder="Digite o nome do Serviço">
               </div>
               <br>
               <label>Preço do Serviço:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
-                <input type="number" class="form-control" placeholder="Digite o preço do Serviço" name="valor_servico">
+                <input type="number" class="form-control" placeholder="Digite o preço do Serviço">
               </div>
             </div>
             <div class="box-footer">
@@ -143,13 +143,12 @@
                   <th>Preço do Item</th>
                 </tr>
                 <tr>
-                {% for itens in itens %}
-                  <td>{{ itens.id }}</td>
-                  <td>{{ itens.nome_item }}</td>
-                  <td>{{ itens.valor_item }}</td>
+                  <td>1</td>
+                  <td>teste</td>
+                  <td>1000</td>
                 </tr>
-                {% endfor %}
               </tbody></table>
+              <!--
                 <ul class="pagination ">
                     <li class="paginate_button previous disabled " id="example1_previous ">
                         <a href="# " aria-controls="example1 " data-dt-idx="0 " tabindex="0 ">Anterior</a>
@@ -163,6 +162,7 @@
                     {% endif %} {% endfor %}
                     <li class="paginate_button next " id="example1_next "><a href="# " aria-controls="example1 " data-dt-idx="7 " tabindex="0 ">Próximo</a></li>
                 </ul>
+                -->
 
             </div>
             <!-- /.box-body -->
@@ -195,14 +195,13 @@
                   <th>Valor de Serviço</th>
                 </tr>
                 <tr>
-                {% for servico in servico %}
-                  <td>{{ servico.id }}</td>
-                  <td>{{ servico.servico }}</td>
-                  <td>{{ servico.valor_servico }}</td>
+                  <td>1</td>
+                  <td>TESTE</td>
+                  <td>1000</td>
                 </tr>
-                {% endfor %}
               </tbody>
               </table>
+              <!--
                <ul class="pagination ">
                     <li class="paginate_button previous disabled " id="example1_previous ">
                         <a href="# " aria-controls="example1 " data-dt-idx="0 " tabindex="0 ">Anterior</a>
@@ -216,7 +215,7 @@
                     {% endif %} {% endfor %}
                     <li class="paginate_button next " id="example1_next "><a href="# " aria-controls="example1 " data-dt-idx="7 " tabindex="0 ">Próximo</a></li>
                 </ul>
-
+            -->
              
             </div>
             <!-- /.box-body -->
@@ -237,7 +236,7 @@
               <h3 class="box-title">Adicionar um novo Usuário Administrador</h3>
             </div>
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data" action="{% url 'administrador_usuario' %}" >
+            <form method="POST" enctype="multipart/form-data" action="#" >
             {% csrf_token %} {{ form.errors }}
               <!-- dividindo na tela -->
               <div class="col-md-6">
@@ -247,7 +246,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" name="nome" id="nome_administrador">
+                  <input type="text" class="form-control pull-right">
                 </div>
                 </div> <!-- col-md-3 -->
                 <!-- /.input group -->
@@ -261,7 +260,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-envelope-o"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" name="email" id="email_administrador">
+                  <input type="text" class="form-control pull-right" >
                 </div>
                 </div> <!-- col-md-3 -->
                 <!-- /.input group -->
@@ -274,7 +273,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-user-secret"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" name="usuario" id="usuario_administrador">
+                  <input type="text" class="form-control pull-right">
                 </div>
                 </div> <!-- col-md-3 -->
                 <!-- /.input group -->
@@ -287,7 +286,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-lock"></i>
                   </div>
-                  <input type="password" class="form-control pull-right" name="senha" id="senha_administrador">
+                  <input type="password" class="form-control pull-right" >
                 </div>
                 </div> <!-- col-md-3 -->
                 <!-- /.input group -->
@@ -299,7 +298,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-lock"></i>
                   </div>
-                  <input type="password" class="form-control pull-right" name="senha2" id="senha_administrador2">
+                  <input type="password" class="form-control pull-right" >
                 </div>
                 </div> <!-- col-md-3 -->
                 <!-- /.input group -->
@@ -328,7 +327,7 @@
             <div class="icon">
               <i class="fa  fa-reorder "></i>
             </div>
-            <a href="{% url 'pedidos_usuario' %}" class="small-box-footer">
+            <a href="#" class="small-box-footer">
             Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -345,7 +344,7 @@
             <div class="icon">
               <i class="fa fa-history"></i>
             </div>
-            <a href="{% url 'historico' %}" class="small-box-footer">
+            <a href="#" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -362,7 +361,7 @@
             <div class="icon">
               <i class="fa  fa-retweet"></i>
             </div>
-            <a href="{% url 'status_usuario' %}" class="small-box-footer">
+            <a href="#" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -379,7 +378,7 @@
             <div class="icon">
               <i class="fa fa-users"></i>
             </div>
-            <a href="{% url 'suporte' %}" class="small-box-footer">
+            <a href="#" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>

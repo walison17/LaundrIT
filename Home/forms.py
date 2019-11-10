@@ -4,8 +4,8 @@ from .models import User
 
 
 class ClienteForm(ModelForm):
-
+    
     class Meta:
-
         model = Cliente
-        fields = ('user', 'rg', 'cpf', 'endereco', 'telefone')
+
+        fields = ['user', 'nome_cliente', 'rg', 'cpf', 'endereco', 'telefone' ]

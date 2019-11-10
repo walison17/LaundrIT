@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.shortcuts import get_list_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.validators import validte_email
+from django.core.validators import validate_email
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q, Value
@@ -39,21 +39,27 @@ def administrador_servico(request):
     return render(request, 'servico/inicial.html')
 
 
+def historico_admin(request):
+    return render(request, 'servico/historico_admin.html')
+
+def status_admin(request):
+    return render(request, 'servico/status_admin.html')
+
+def suporte_admin(request):
+    return render(request, 'servico/suporte_admin.html')
 
 
 
 
 
-
-
-def historico(request):
+def historico_usuario(request):
     return render(request, 'servico/historico.html')
 
-def status(request):
+def status_usuario(request):
     return render(request, 'servico/status.html')
 
 def buscar_por_status(request):
     return render(request, 'servico/buscar_por_status.html')
 
-def suporte(request):
-    return render(request, 'servico/suporte,html')
+def suporte_usuario(request):
+    return render(request, 'servico/suporte.html')

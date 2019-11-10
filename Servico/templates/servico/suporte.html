@@ -42,54 +42,24 @@
                 {% if user.is_superuser %}
   <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
-          <li><a href="{% url 'pedidos' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li class="active"><a href="{% url 'administrador_status' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'pedidos_admin' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li class="active"><a href="{% url 'suporte_admin'%}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% else %}
         <ul class="sidebar-menu" data-widget="tree">
           <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
           <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
-          <li><a href="{% url 'historico' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
-          <li class="active"><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
-          <li><a href="{% url 'suporte' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li class="active"><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
       </ul>
       {% endif %}
 
 {% endblock %}
 {% block main %}
 
+SUPORTE  USUARIO
 
-<h3> Status do Pedido </h3>
-
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
-<div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Pesquise seu Pedido</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="{% url 'busca_por_status' %}">
-              {% csrf_token %} {{ form.errors }}
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-7 control-label">Digite o Código ou a Data do Pedido</label>
-                  <div class="col-sm-4">
-                    <input type="number" class="form-control" id="search-codigo" name="numero_pedido" placeholder="">
-                  </div>
-                </div>
-                </div>
-              <div class="box-footer">
-                <a href="{% url 'inicial' %}" class="btn btn-warning">Voltar</a>
-                <button type="submit" class="btn btn-info pull-right">Pesquisar</button>
-              </div>
-              <!-- /.box-footer -->
-            </form>
-          </div>
-          </div>
-              <!-- /.box-body -->
-
-</div>
 {% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.shortcuts import get_list_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.validators import validte_email
+from django.core.validators import validate_email
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q, Value
