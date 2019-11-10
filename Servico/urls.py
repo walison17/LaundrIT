@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from .views import administrador_status, administrador_usuario, \
-    administrador_item, administrador_servico, historico_usuario, \
+    administrador_roupa, administrador_servico, historico_usuario, \
     historico_admin, status_admin, status_usuario, \
     suporte_admin, suporte_usuario    
 
@@ -13,7 +13,7 @@ from .views import administrador_status, administrador_usuario, \
 urlpatterns = [
     path('administrador_status/', administrador_status, name='administrador_status'),
     path('administrador_usuario/', administrador_usuario, name='administrador_usuario'),
-    path('administrador_item/', administrador_item, name='administrador_item'),
+    path('administrador_roupa/', administrador_roupa, name='administrador_roupa'),
     path('administrador_servico/', administrador_servico, name='administrador_servico'),
     path('historico_admin/', historico_admin, name='historico_admin'),
     path('historico_usuario/', historico_usuario, name='historico_usuario'),

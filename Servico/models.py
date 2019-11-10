@@ -5,7 +5,7 @@ from model_utils.models import TimeStampedModel, UUIDModel
 
 class Servico(UUIDModel, TimeStampedModel):
     nome_servico = models.CharField('Nome Serviço', max_length=100)
-    preco = models.DecimalField('Preço', max_digits=5, decimal_places=2)
+    preco_servico = models.DecimalField('Preço', max_digits=5, decimal_places=2)
 
     class Meta:
         verbose_name = 'serviço'

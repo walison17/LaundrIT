@@ -76,7 +76,7 @@ def cadastro(request):
     
     user = User.objects.create_user(username=usuario, email=email, first_name=nome, password=senha)
     user.save()
-    cliente = Cliente.objects.create(user=user, rg=rg, cpf=cpf, endereco=endereco, nome_cliente=nome)
+    cliente = Cliente.objects.create(user=user, rg=rg, cpf=cpf, endereco=endereco, telefone=telefone, nome_cliente=nome)
     cliente.save()
     
 

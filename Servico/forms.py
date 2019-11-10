@@ -13,6 +13,6 @@ class ServicoForm(ModelForm):
     class Meta:
         model = Servico
 
-        fields = ['nome_servico', 'preco']
+        fields = ['nome_servico', 'preco_servico']
 
 

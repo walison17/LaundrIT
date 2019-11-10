@@ -55,7 +55,7 @@ class Pedido(UUIDModel, TimeStampedModel):
 
 class Roupa(UUIDModel, TimeStampedModel):
     nome_peca = models.CharField('Nome da Peça',  max_length=50)
-    preco = models.DecimalField('Preço', max_digits=5, decimal_places=2)
+    preco_roupa = models.DecimalField('Preço', max_digits=5, decimal_places=2)
 
     class Meta:
         verbose_name = 'Roupa'

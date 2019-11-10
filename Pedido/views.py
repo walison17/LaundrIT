@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from Servico.models import Servico
-from .models import Pedido, Item, Status
+from .models import Pedido, Item, Roupa, Status
 
 from .forms import PedidoForm, ItemForm, StatusForm
 from Servico.forms import ServicoForm
@@ -38,7 +38,19 @@ def pedidos_admin(request):
     return render(request, 'pedido/pedidos_admin.html')
 
 def pedidos_usuario(request):
-    return render(request, 'pedido/pedidos.html')
+    cliente = Cliente.objects.all()
+    roupas = Roupa.objects.all()
+    pedido = Pedido.objects.all()
+    servico =  Servico.objects.all()
+    status = Status.objects.all()
+
+    return render(request, 'pedido/pedidos.html', {
+            'cliente': cliente,
+            'roupas': roupas,
+            'status': status,
+            'pedido': pedido,
+            'servico': servico,
+                })
 
 def adicionar_item(request):
     return render(request, 'pedido/pedidos.html')

@@ -26,7 +26,7 @@ class RoupaForm(ModelForm):
     class Meta:
         model = Roupa
 
-        fields = ['nome_peca', 'preco']
+        fields = ['nome_peca', 'preco_roupa']
 
 
 class StatusForm(ModelForm):

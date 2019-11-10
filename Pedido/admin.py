@@ -26,7 +26,7 @@ class PedidoAdmin(admin.ModelAdmin):
 @admin.register(Roupa)
 class Roupa(admin.ModelAdmin):
     model = Roupa
-    list_display = ['nome_peca', 'preco']
+    list_display = ['nome_peca', 'preco_roupa']
     readonly_fields = ['created', 'modified']
 
 @admin.register(Status)
