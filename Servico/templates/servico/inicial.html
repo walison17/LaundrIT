@@ -79,7 +79,7 @@
               <label>Preço do Item:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
-                <input type="number" class="form-control" name="preco_roupa" placeholder="Digite o preço do item" >
+                <input type="text" class="form-control" name="preco_roupa" placeholder="Digite o preço do item" >
               </div>
             </div>
             <div class="box-footer">
@@ -106,7 +106,7 @@
               <label>Preço do Serviço:</label>
               <div class="input-group">
                 <span class="input-group-addon"><img src={% static 'assets\icons\money.png' %}></span>
-                <input type="number" class="form-control" name="preco_servico" placeholder="Digite o preço do Serviço">
+                <input type="text" class="form-control" name="preco_servico" placeholder="Digite o preço do Serviço">
               </div>
             </div>
             <div class="box-footer">
@@ -327,7 +327,7 @@
             <div class="icon">
               <i class="fa  fa-reorder "></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{% url 'pedidos_usuario' %}" class="small-box-footer">
             Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -344,7 +344,7 @@
             <div class="icon">
               <i class="fa fa-history"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{% url 'historico_usuario' %}" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -361,7 +361,7 @@
             <div class="icon">
               <i class="fa  fa-retweet"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{% url 'status_usuario' %}" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>
@@ -378,7 +378,7 @@
             <div class="icon">
               <i class="fa fa-users"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{% url 'suporte_usuario' %}" class="small-box-footer">
               Clique aqui <i class="fa fa-hand-pointer-o"></i>
             </a>
           </div>

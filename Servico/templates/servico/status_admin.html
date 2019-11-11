@@ -60,10 +60,19 @@
 {% endblock %}
 {% block main %}
 
-<div class="col-xs-12">
+
+<div class="col-md-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#pedidos" data-toggle="tab" aria-expanded="true">Pedidos</a></li>
+              <li><a href="#status" data-toggle="tab">Status</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="pedidos">
+
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Status Pedidos Ativos</h3>
+              <h3 class="box-title">Pedidos Ativos</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -90,7 +99,7 @@
                 </tr>
                   <tr> 
                   {% for pedido in pedido %}
-                  <td><a href="{% url 'status_comentar_status' pedido.id %}" class="edit-status" >
+                  <td><a href="{% url 'status_comentar_status_pedido' pedido.id %}" class="edit-status" >
                   <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a></td>
                   <td>{{ pedido.id }}</td>
                   <td>{{ pedido.solicitante }}</td>
@@ -106,6 +115,66 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
+
+
         </div>
+        <!-- / .tab-->
+
+
+               
+
+      
+
+              <div class="tab-pane" id="status">
+
+              <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Acompanhar Status</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody>
+                  <th style="width : 5px;"> ID Pedido </th>
+                  <th> Nome do Cliente </th>
+                  <th>Situação</th>
+                  <th>Data Comentário</th>
+                  <th>Descrição</th>
+                </tr>
+                  <tr> 
+                  {% for status in status %}
+                  <td>{{ status.pedido }}</td>
+                  <td>{{ status.pedido.solicitante }}
+                  <td>{{ status.situacao_pedido }}</td>
+                  <td>{{ status.data_comentario }}</td>
+                  <td><textarea style="resize: none;" rows="2" cols="50" disabled>{{ status.comentario }}</textarea></td>           
+                </tr>
+                {% endfor %}
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+              
+            </div>
+
+
+
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+
 
 {% endblock %}

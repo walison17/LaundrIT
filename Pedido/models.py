@@ -40,6 +40,7 @@ class Pedido(UUIDModel, TimeStampedModel):
         editable=False
     )
     pagamento = models.CharField('Pagamento', max_length=50, choices=PAGAMENTO, default=BOLETO, null=False, blank=False)
+    
     class Meta:
         verbose_name = 'pedido'
         verbose_name_plural = 'pedidos'
@@ -70,7 +71,7 @@ class Status(models.Model):
         (PEDIDO_FINALIZADO, 'Pedido Finalizado'),
         (PEDIDO_CANCELADO, 'Pedido Cancelado')
     )
-    comentario = models.TextField(null=True, blank=True, verbose_name="Comentar Status")
+    comentario = models.TextField(null=False, blank=False, verbose_name="Comentar Status")
     situacao_pedido = models.CharField(
         'Situação', max_length=50, choices=STATUS, default=PEDIDO_ATIVO)
     data_comentario = models.DateTimeField(default=timezone.now, verbose_name="Data do Comentario")
@@ -81,6 +82,7 @@ class Status(models.Model):
 
 
 class Roupa(UUIDModel, TimeStampedModel):
+    id = models.AutoField(primary_key=True)
     nome_peca = models.CharField('Nome da Peça',  max_length=50)
     preco_roupa = models.DecimalField('Preço', max_digits=5, decimal_places=2)
 

@@ -4,6 +4,7 @@ from model_utils.models import TimeStampedModel, UUIDModel
 
 
 class Servico(UUIDModel, TimeStampedModel):
+    id = models.AutoField(primary_key=True)
     nome_servico = models.CharField('Nome Serviço', max_length=100)
     preco_servico = models.DecimalField('Preço', max_digits=5, decimal_places=2)
 

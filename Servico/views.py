@@ -176,49 +176,36 @@ def status_admin(request):
         roupas = Roupa.objects.all()
         servico = Servico.objects.all()
         pedido = Pedido.objects.all()
+        status = Status.objects.all()
         return render(request, 'servico/status_admin.html', {
             'cliente': cliente,
             'roupas': roupas,
             'servico': servico,
             'pedido': pedido,
+            'status': status,
         })
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
-def status_comentar_status(request, id):
+def status_comentar_status_pedido(request, id):
     if request.user.is_superuser:
         pedido = get_object_or_404(Pedido, pk=id)
         status = Status.objects.all()
-        print(status)
-        form = StatusForm(request.POST or None, request.FILES or None, instance=Status)
-
+        pedido_escolha = Pedido.objects.all()
+        form = StatusForm(request.POST or None, request.FILES or None)
+        
         if form.is_valid():
             form.save()
-            return redirect('administrador_status')
+            return redirect('status_admin')
         return render(request, 'servico/status_comentar_admin.html', {
             'form': form,
             'status': status,
+            'pedido': pedido,
+            'pedido_escolha': pedido_escolha,
         })
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
-def criar_status(request, id):
-    if request.user.is_superuser:
-
-        pedido = request.GET.get('pedido', None)
-        status = Status.objects.all()
-        form = StatusForm(request.POST or None, request.FILES or None, instance=Status)
-        print(status)
-
-        if form.is_valid():
-            form.save()
-            return redirect('administrador_status')
-        return render(request, 'servico/status_comentar_admin.html', {
-            'form': form,
-            'status': status,
-        })
-    else:
-        return HttpResponse("Acesso Negado!")
 
 def suporte_admin(request):
     return render(request, 'servico/suporte_admin.html')
@@ -231,9 +218,46 @@ def historico_usuario(request):
     return render(request, 'servico/historico.html')
 
 def status_usuario(request):
-    return render(request, 'servico/status.html')
+    pedido = request.GET.get('pedido', None)
+    status = Status.objects.all()
+    print('to fora')
+
+    if pedido:
+        status = Status.objects.all()
+        status = status.filter(pedido__icontains=pedido)
+        return render(
+        request, 'servico/buscar_por_status.html', {
+            'status': status,
+        }
+    )
+    else:
+        status = Status.objects.all()
+        return render(
+        request, 'servico/status.html', {
+            'status': status,
+        }
+    )
+    return render(request, 'servico/status.html', { 'status': status,})
 
 def buscar_por_status(request):
+    pedido = request.GET.get('pedido', None)
+
+    if pedido:
+        status = Status.objects.all()
+        print(status)
+        print('to aqui')
+        status = status.filter(pedido__icontains=pedido)
+    else:
+        status = Status.objects.all()
+    
+    
+    return render(
+        request, 'servico/buscar_por_status.html', {
+            'status': status,
+        }
+    )
+
+
     return render(request, 'servico/buscar_por_status.html')
 
 def suporte_usuario(request):

@@ -73,19 +73,17 @@
             {% csrf_token %} {{ form.errors }}
               <form role="form">
 
-              <div class="col-md-3">
+
+            <div class="col-md-2">
             <div class="form-group">
-            <label>Número do Pedido</label>
-            <select class="form-control" name="status_pedido" id="status_pedido">
-            <option value>------------------------------</option>
-            {% for status in status.all %}
-            <option id="status.pedido" value="{{ status.pedido.id }}" name="status.pedido">{{ status.pedido.id }}</option>
-            {% endfor %}
+            <label>Numero do Pedido</label>
+            <select class="form-control" name="pedido" id="id_pedido">
+            <option  value="{{ pedido }}" id="id_pedido" name="pedido">{{ pedido }}</option>
             </select>
             </div>
             </div>
 
-              <div class="col-md-9">
+              <div class="col-md-12">
                 <div class="form-group">
                   <label>Descrição Status</label>
                   <textarea style="resize: none;" class="form-control" rows="3" name="comentario" id="comentario" placeholder="Comentário sobre o Pedido" spellcheck="false"></textarea>
@@ -96,10 +94,10 @@
             <div class="form-group">
             <label>Status Pedido</label>
             <select class="form-control" name="situacao_pedido" id="situacao_pedido">
-            <option value>------------------------------</option>
-            {% for PEDIDO_ATIVO, PEDIDO_FINALIZADO, PEDIDO_CANCELADO in form.status.situacao_pedido.choices %}
-            <option id="situacao_pedido" value="{{ situacao_pedido }}" name="situacao_pedido">{{ situacao_pedido }}</option>
-            {% endfor %}
+            <option value>----------------</option>
+            <option value="Pedido Ativo">Pedido Ativo</option>
+            <option value="Pedido Finalizado">Pedido Finalizado</option>
+            <option value="Pedido Cancelado">Pedido Cancelado</option>
             </select>
             </div>
             </div>
@@ -112,7 +110,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" class="form-control" id="data_comentario" name="data_comentario" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
+                  <input type="date" class="form-control" id="data_comentario" name="data_comentario">
                 </div>
                 <!-- /.input group -->
               </div>
