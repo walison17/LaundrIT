@@ -62,12 +62,7 @@
 
 
 <h3> Status do Pedido </h3>
-
- {% for status in status %}
-                     {{ status.id }}
-
-                     {% endfor %}
-                     
+      
 
 <div class="row">
 <div class="col-md-6 col-md-offset-3">
@@ -77,20 +72,19 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="#">
+            <form class="form-horizontal" method="GET" enctype="multipart/form-data" action="{% url 'buscar_por_status' %}">
               {% csrf_token %} {{ form.errors }}
               <div class="box-body">
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-7 control-label">Digite o Código ou a Data do Pedido</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control"  id="pedido" name="pedido" placeholder="Digite o Código do Pedido">
+                    <input type="search" class="form-control"  value="{{ request.GET.termo }}"  id="termo" name="termo" placeholder="Digite o Código do Pedido">
                   </div>
                 </div>
                 </div>
               <div class="box-footer">
                 <a href="{% url 'inicial' %}" class="btn btn-warning">Voltar</a>
                 <button type="submit" class="btn btn-info pull-right">Pesquisar</button>
-                <a href="{% url 'buscar_por_status' %}" class="btn btn-success"> BUSCAR TESTE </a>
               </div>
               <!-- /.box-footer -->
             </form>

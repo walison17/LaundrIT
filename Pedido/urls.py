@@ -3,11 +3,15 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from .views import pedidos_admin, pedidos_usuario, adicionar_item, update_item
+from .views import pagamento, suporte_admin, suporte_usuario
 
 urlpatterns = [
     path('pedidios_admin/', pedidos_admin, name='pedidos_admin'),
     path('pedidos_usuario/', pedidos_usuario, name='pedidos_usuario'),
     path('adicionar_item/', adicionar_item, name='adcionar_item'),
     path('update_item/', update_item, name='update_item'),
+    path('pagamento/', pagamento, name='pagamento'),
+    path('suporte_admin/', suporte_admin, name='suporte_admin'),
+    path('suporte_usuario/', suporte_usuario, name='suporte_usuario'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

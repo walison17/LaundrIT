@@ -83,13 +83,14 @@
                 </tr>
                 </thead>
                 </form>
-                <tbody>        
+                <tbody>      
+                {% for status in status %}  
                 <tr role="row" class="odd">
-                  <td style="text-align : left;">10</td>
-                  <td style="text-align : left;">There are many variations of passages of Lorem Ipsum available,
-        but the majority have.</td>
-                  <td style="text-align : left;">20/11/2019</td>
-                  <td style="text-align : left;">ATIVO</td>
+                  <td style="text-align : left;">{{ status.pedido }}</td>
+                  <td style="text-align : left;">{{ status.comentario }}</td>
+                  <td style="text-align : left;">{{ status.data_comentario }}</td>
+                  <td style="text-align : left;">{{ status.situacao_pedido }}</td>
+                  {% endfor %}
                   </tr>
                 </tbody>
                 <tfoot>

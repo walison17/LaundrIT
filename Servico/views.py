@@ -207,58 +207,36 @@ def status_comentar_status_pedido(request, id):
         return HttpResponseNotFound("Acesso Negado!")
 
 
-def suporte_admin(request):
-    return render(request, 'servico/suporte_admin.html')
-
-
-
-
-
 def historico_usuario(request):
     return render(request, 'servico/historico.html')
 
 def status_usuario(request):
-    pedido = request.GET.get('pedido', None)
+    if request.user.is_superuser:
+        return HttpResponseNotFound("Acesso Negado!")
     status = Status.objects.all()
-    print('to fora')
-
-    if pedido:
-        status = Status.objects.all()
-        status = status.filter(pedido__icontains=pedido)
-        return render(
-        request, 'servico/buscar_por_status.html', {
-            'status': status,
-        }
-    )
-    else:
-        status = Status.objects.all()
-        return render(
-        request, 'servico/status.html', {
-            'status': status,
-        }
-    )
+   
     return render(request, 'servico/status.html', { 'status': status,})
 
 def buscar_por_status(request):
-    pedido = request.GET.get('pedido', None)
-
-    if pedido:
+    if request.user.is_superuser:
+        return HttpResponseNotFound("Acesso Negado!")
+    termo = request.GET.get('termo', None)
+    status = Status.objects.all()
+    if termo:
         status = Status.objects.all()
-        print(status)
-        print('to aqui')
-        status = status.filter(pedido__icontains=pedido)
-    else:
-        status = Status.objects.all()
-    
-    
+        status = status.filter(pedido_id__exact=termo)
+        if not status:
+            return render(request, 'servico/buscar_por_status_not_found.html')
+    if not termo:
+        return render(request, 'servico/buscar_por_status_not_found.html')
     return render(
         request, 'servico/buscar_por_status.html', {
             'status': status,
         }
     )
+    print('to dentro')
 
 
     return render(request, 'servico/buscar_por_status.html')
 
-def suporte_usuario(request):
-    return render(request, 'servico/suporte.html')
+

@@ -35,3 +35,11 @@ class StatusForm(ModelForm):
         model = Status
 
         fields = ['comentario', 'pedido', 'situacao_pedido', 'data_comentario']
+
+
+class SuporteForm(ModelForm):
+    
+    class Meta:
+        model = Suporte
+
+        fields = ['nome_cliente', 'email', 'cpf', 'mensagem', 'telefone', 'numero_pedido']

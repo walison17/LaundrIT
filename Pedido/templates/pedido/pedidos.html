@@ -58,6 +58,7 @@
 {% endblock %}
 
 {% block main %}
+
 <div class="row">
 <div class="col-md-12">
 <div class="box box-primary">
@@ -145,125 +146,64 @@
               <!-- /.form group -->
               </div>
 
-            </div>
-            <!-- /.box-body -->
-
-          </div>
-          <!-- aqui fecha o formulário...-->
-</div>
-<!-- primeiro box de dados pessoais -->
-
-
-
-<div class="col-md-12">
-<div class="box box-primary">
-            <div class="box-header">
-              <h3 class="box-title">Dados do Pedido</h3>
-            </div>
-            <div class="box-body"> 
-              <!-- Date dd/mm/yyyy -->
-
-              <div class="col-md-3">
-              <div class="form-group">
-                <label>Data de Entrega</label> <a href="#" title="Agendar"> Agendar</a>
-
-                <div class="input-group date">
+            <div class="col-md-4">
+            <div class="form-group">
+            <label> Data para Entrega : </lable>
+              <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  
-                  <input type="text" class="form-control pull-right" id="datepicker"> 
+                  <input type="date" class="form-control pull-right">
                 </div>
                 <!-- /.input group -->
               </div>
               <!-- /.form group -->
               </div>
-        <div class="col-md-12">
-        {% include 'parciais/_messages.html' %}
-          <div class="box">
+              
+
+
+            </div>
+            <!-- /.box-body -->
+
+<div class="row">
+<div class="col-md-12">
+
+<div class="box">
             <div class="box-header">
-              <h3 class="box-title">Fazer Pedidos</h3>
+              <h3 class="box-title">PEDIDO</h3>
             </div>
             <!-- /.box-header -->
-            <form method="POST" enctype="multipart/form-data" action="#">
-            {% csrf_token %} {{ form.errors }}
             <div class="box-body">
-              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+              <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                 <thead>
                 <tr role="row">
-                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" style=" width: 20%;">Item</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 18%;">Serviço</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 12%;">Quantidade</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 6%;">Valor Unitário</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 6%;">Valor Total</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" style=" width: 1%;"></th>
-
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 177px;">Quantidade</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 218px;">Serviço</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 194px;">Itens</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 152px;">Preço Unitário</th>
                 </tr>
-                <tr>
-  <td class="table-info " style="text-align : left;"><div class="input-group">
-  <select class="form-control" name="nome_item" id="nome_item">
-    <option value>------------------------------</option>
-    <!-- {% for nome_item in item.all %} -->
-    <option id="" value="" name="nome_item">TESTE</option>
-    <!-- {% endfor %} -->
-   </div></td>
-                        <td class="table-info " style="text-align : left;"><div class="input-group">
-                        <select class="form-control" name="tipo_de_servico" id="tipo_de_servico">
-    <option value>------------------------------</option>
-    <!-- {% for tipo_de_servico in servico.all %} -->
-    <option id="" value="" name="tipo_de_servico">TESTEW1</option>
-    {% endfor %}
-    </div> </td>
-                        <td class="table-info " style="text-align : left;"><div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="" name="quantidade"  ></div> </td>
-                        <td class="table-info " style="text-align : left;"><div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="0,00" name="valor_item_pedido" readonly></div></td>
-                        <td class="table-info " style="text-align : left;"><div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-arrow-circle-o-down"></i></span><input class="form-control" type="search" value="" placeholder="0,00" name="valor_item_pedido_qtd" readonly></div> </td>
-                        <td class="table-info " style="text-align : left;"><button type="submit" class="btn btn-primary">Adicionar</button></td>
-                        </tr>
-
                 </thead>
-                </form>
-                <tbody>        
-                <tr role="row" class="odd">
-                <!-- {% for itempedido in itempedido %} -->
-                  <td style="text-align : left;">NOME ITEM R$ VALOR ITEM </td>
-                  <td style="text-align : left;">TIPO DO SERVICO R$ VALOR DO SERVICO</td>
-                  <td style="text-align : center;">QUANTIDADE  </td>
-                  <td style="text-align : center;">VALOR UNITARIO</td>
-                  <td style="text-align : center;">VALOR TOTAL</td>
-                  <td style="text-align : center;"><i class="fa fa-remove" style="font-size: 13px;"><i/> &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp <i class="fa fa-edit" style="font-size: 12px"> </i></td>
-                  </tr>
-                  <!-- {% endfor %} -->
+                <tbody>
+                <tr role="row" class="even">
+                  <td class="sorting_1">{{ item.quantidade }}</td>
+                  <td>{{ item.servico }}</td>
+                  <td>{{ item.roupa }}</td>
+                  <td>{{ preco_unitario }}</td>
+                </tr>
                 </tbody>
                 <tfoot>
-              </tfoot>
-              </table></div></div>
-              <div class="float-lg-right" style="margin-left: 70%;">
-                <p><strong>Valor Total do Pedido: </strong></p>
+                </tfoot>
+              </table>
               </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-          <div class="box-footer">
-              <!-- phone mask -->
+              <div class="float-right">
+              <a href="{% url 'inicial' %}" type="button" class="btn btn-warning">Voltar</a>
+<button type="button" class="btn btn-primary float-right">Finalizar Pedido</button>
+</div>
               </div>
-              <!-- /.row -->
-            </div>
-
-            </div>
-            <!-- /.box-body -->
-
+</div>
+</div>
           </div>
-
-
-</div>
-        
+          <!-- aqui fecha o formulário...-->
 </div>
 
-
-
-</div>
 {% endblock %}

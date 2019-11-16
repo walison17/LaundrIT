@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
 from datetime import datetime
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from model_utils.models import TimeStampedModel, UUIDModel
 
@@ -130,3 +131,22 @@ class Item(TimeStampedModel):
         self.preco_unitario =  self.quantidade * (self.servico.preco_servico + self.roupa.preco_roupa)
         return super().save(*args, **kwargs)
 
+
+
+
+class Suporte(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome_cliente = models.ForeignKey(Cliente, verbose_name="Nome do Cliente", on_delete=models.PROTECT)
+    email = models.CharField(max_length=60, blank=False, null=False, verbose_name="E-mail do Cliente")
+    cpf = models.BigIntegerField( unique=True, verbose_name=u' CPF ', validators=[
+        MaxValueValidator(99999999999),
+        MinValueValidator(11111111111)
+    ])
+    mensagem = models.TextField(max_length=255, blank=False, null=False,)
+    telefone = models.BigIntegerField(
+        null=True, blank=True, verbose_name=u'Telefone')
+    numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
+
+    def __str__(self):
+        return '%s     ---   %s' % (self.nome_cliente, self.numero_pedido)
+        
