@@ -42,4 +42,4 @@ class SuporteForm(ModelForm):
     class Meta:
         model = Suporte
 
-        fields = ['nome_cliente', 'email', 'cpf', 'mensagem']
+        fields = ['nome_cliente', 'email', 'cpf', 'mensagem', 'mensagem', 'data_mensagem', 'respondido']

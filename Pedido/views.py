@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
@@ -102,6 +104,19 @@ def suporte_usuario(request):
     return render(request, 'pedido/suporte.html')
 
 
-def responder_suporte(request):
-    return render(request, 'pedido/responder_suporte.html')
+def responder_suporte(request, id):
+    if request.user.is_superuser:
+        suporte = get_object_or_404(Suporte, pk=id)
+
+        form = SuporteForm(request.POST or None, request.FILES or None, instance=suporte)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'E-mail enviado para cliente!')
+            return redirect('suporte_admin')
+        return render(request, 'pedido/responder_suporte.html',{
+        'suporte': suporte})
+    else:
+        return HttpResponseNotFound("Acesso Negado!")
+
     

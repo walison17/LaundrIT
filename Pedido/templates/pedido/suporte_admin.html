@@ -90,7 +90,7 @@
                 </tr>
                 {% for suporte in suporte %}
                 <tr>
-                <td><a href="#" class="edit-status" >
+                <td><a href="{% url 'responder_suporte' suporte.id %}" class="edit-status" >
                   <i class="fa fa-edit" aria-hidden="true" title="Responder"></i></a></td>
                   <td>{{ suporte.nome_cliente }}</td>
                   <td>{{ suporte.cpf }}</td>

@@ -13,6 +13,6 @@ urlpatterns = [
     path('pagamento/', pagamento, name='pagamento'),
     path('suporte_admin/', suporte_admin, name='suporte_admin'),
     path('suporte_usuario/', suporte_usuario, name='suporte_usuario'),
-    path('responder_suporte/', responder_suporte, name='responder_suporte')
+    path('responder_suporte/<int:id>/', responder_suporte, name='responder_suporte')
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
