@@ -63,7 +63,9 @@ def pagamento(request):
     return render(request, 'pedido/pagamento.html')
 
 def suporte_admin(request):
-    return render(request, 'pedido/suporte_admin.html')
+    suporte = Suporte.objects.all().order_by('-data_mensagem')
+
+    return render(request, 'pedido/suporte_admin.html', {'suporte' : suporte})
 
 def suporte_usuario(request):
     if request.method != 'POST':
@@ -71,7 +73,6 @@ def suporte_usuario(request):
 
     email = request.POST.get('email', None)
     mensagem = request.POST.get('mensagem', None)
-    numero_pedido  = request.POST.get('numero_pedido', None)
 
     if not email or not mensagem:
         messages.error(request, 'Nenhum campo pode estar vazio.')
@@ -83,12 +84,19 @@ def suporte_usuario(request):
         messages.error(request, 'E-mail Inválido.')
         return render(request, 'pedido/suporte.html')
 
-    cpf = request.user.cliente.cpf
-    nome_cliente = request.user.nome_cliente
-    telefone = request.user.telefone
 
-    comentario = Suporte.objects.create(nome_cliente=nome_cliente, email=email, \
-        cpf=cpf, telefone=telefone, mensagem=mensagem, numero_pedido=numero_pedido)
+    nome_cliente = request.user.username 
+    cpf = request.user.cliente.cpf
+
+    suporte = Suporte.objects.create(email=email, nome_cliente=nome_cliente, \
+        cpf=cpf, mensagem=mensagem)
+    suporte.save()
+
+    messages.success(request, 'Mensagem Enviada com sucesso! Aguarde pelo retorno.')
+    return redirect('inicial')
+
+    return render(request, 'pedido/suporte.html')
+
 
 
     return render(request, 'pedido/suporte.html')

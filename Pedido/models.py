@@ -136,17 +136,16 @@ class Item(TimeStampedModel):
 
 class Suporte(models.Model):
     id = models.AutoField(primary_key=True)
-    nome_cliente = models.ForeignKey(Cliente, verbose_name="Nome do Cliente", on_delete=models.PROTECT)
+    nome_cliente = models.CharField(max_length=50, verbose_name="Nome do Cliente")
     email = models.CharField(max_length=60, blank=False, null=False, verbose_name="E-mail do Cliente")
-    cpf = models.BigIntegerField( unique=True, verbose_name=u' CPF ', validators=[
+    cpf = models.BigIntegerField(unique=False, verbose_name=u' CPF ', validators=[
         MaxValueValidator(99999999999),
         MinValueValidator(11111111111)
     ])
     mensagem = models.TextField(max_length=255, blank=False, null=False,)
-    telefone = models.BigIntegerField(
-        null=True, blank=True, verbose_name=u'Telefone')
-    numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
+    data_mensagem = models.DateTimeField(default=timezone.now(), blank=True, null=True)
+    #numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
 
     def __str__(self):
-        return '%s     ---   %s' % (self.nome_cliente, self.numero_pedido)
+        return '%s ' % (self.nome_cliente)
         

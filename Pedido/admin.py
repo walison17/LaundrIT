@@ -37,7 +37,7 @@ class Status(admin.ModelAdmin):
 @admin.register(Suporte)
 class Suporte(admin.ModelAdmin):
     model = Suporte
-    list_display = ['nome_cliente', 'email', 'cpf', 'telefone', 'numero_pedido']
+    list_display = ['nome_cliente', 'email', 'cpf']
     
     
 

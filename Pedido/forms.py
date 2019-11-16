@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.db import transaction
 
 from Home.models import Cliente
-from  Pedido.models import Item, Pedido, Roupa, Status
+from  Pedido.models import Item, Pedido, Roupa, Status, Suporte
 
 
 class ItemForm(ModelForm):
@@ -42,4 +42,4 @@ class SuporteForm(ModelForm):
     class Meta:
         model = Suporte
 
-        fields = ['nome_cliente', 'email', 'cpf', 'mensagem', 'telefone', 'numero_pedido']
+        fields = ['nome_cliente', 'email', 'cpf', 'mensagem']
