@@ -102,4 +102,6 @@ def suporte_usuario(request):
     return render(request, 'pedido/suporte.html')
 
 
+def responder_suporte(request):
+    return render(request, 'pedido/responder_suporte.html')
     

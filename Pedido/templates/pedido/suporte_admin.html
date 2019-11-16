@@ -60,12 +60,12 @@
 {% endblock %}
 {% block main %}
 
-<h4>ÀREA DO SUPORTE ADMINISTRADOR </h4>
+<h4>SUPORTE ADMINISTRADOR </h4>
 <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Ultimas Perguntas Realizadas</h3>
+              <h3 class="box-title">Últimas Perguntas Realizadas</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -81,19 +81,23 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tbody><tr>
-                  <th style="width: 4%;">ID</th>
-                  <th style="width: 15%;">Usuario</th>
-                  <th style="width: 15%;">CPF</th>
+                <th style="width: 1%;"> </th>
+                  <th style="width: 17%;">Usuário</th>
+                  <th style="width: 12%;">CPF</th>
                   <th style="width: 20%;">E-mail</th>
-                  <th style="width: 50%;">Comentário</th>
+                  <th style="width: 20%;">Comentário</th>
+                  <th style="width: 12%;">Data da Postagem</th>
                 </tr>
                 {% for suporte in suporte %}
                 <tr>
-                  <td>{{ suporte.id }}</td>
+                <td><a href="#" class="edit-status" >
+                  <i class="fa fa-edit" aria-hidden="true" title="Responder"></i></a></td>
                   <td>{{ suporte.nome_cliente }}</td>
                   <td>{{ suporte.cpf }}</td>
                   <td>{{ suporte.email }}</td>
-                  <td>{{ suporte.mensagem }}</td>
+                  <td><textarea style="resize: none;" id="story" name="story"
+          rows="2" cols="35" disabled>{{ suporte.mensagem }}</textarea></td>
+                  <td>{{ suporte.data_mensagem }}</td>
                 </tr>
                 {% endfor %}
               </tbody></table>
