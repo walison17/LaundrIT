@@ -144,7 +144,7 @@ class Suporte(models.Model):
     ])
     mensagem = models.TextField(max_length=255, blank=False, null=False,)
     data_mensagem = models.DateTimeField(default=timezone.now(), blank=True, null=True)
-    respondido = models.BooleanField(default=False, verbose_name="Respondido")
+    resposta = models.TextField(max_length=255, blank=False, null=False)
     #numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
 
     def __str__(self):

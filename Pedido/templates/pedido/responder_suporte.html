@@ -60,24 +60,77 @@
 {% endblock %}
 {% block main %}
 
-<h4>RESPONDA O PEDIDO</h4>
-
+<br>
 <div class="row">
 <div class="col-md-9 col-md-offset-1">
 <div class="box box-primary">
   {% include 'parciais/_messages.html' %}
             <div class="box-header with-border">
-              <h3 class="box-title">Responder Cliente X</h3>
+              <h3 class="box-title">Responder Cliente</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data" action="{% url 'responder_suporte' %}">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'responder_suporte' suporte.id %}">
             {% csrf_token %} {{ form.errors }}
-              <form role="form">
                 <!-- textarea -->
+                <div class="col-md-4">
                 <div class="form-group">
-                <textarea class="form-control" rows="3" placeholder="Enter ..." style="resize: none;"></textarea>
+                <label>Usuário : </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" value="{{ suporte.nome_cliente }}" disabled>
                 </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>E-mail do Cliente : </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control" id="email" name="email" value="{{ suporte.email }}" disabled>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+              <div class="col-md-4">  
+              <div class="form-group">
+                <label>CPF do Cliente : </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control" id="cpf" name="cpf" value="{{ suporte.cpf }}" disabled>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+                <div class="col-md-12">
+                <div class="form-group">
+                <label> Messagem do Cliente : </label>
+                <textarea  id="mensagem" name="mensagem" value="{{ suporte.mensagem }}" class="form-control" rows="3" style="resize: none;" disabled>{{ suporte.mensagem }}</textarea>
+                </div>
+                </div>
+
+                <div class="col-md-12">
+                <div class="form-group">
+                <textarea class="form-control" rows="3" id="id_resposta" name='resposta' placeholder="Digite sua resposta aqui..." style="resize: none;" value="{{ suporte.resposta }}"></textarea>
+                </div>
+                </div>
+
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
@@ -85,10 +138,10 @@
                     <button type="submit" value="submit" class="btn btn-primary">Enviar Resposta</button>
                     <a class="btn btn-warning" href="{% url 'suporte_admin' %}" role="button">Voltar</a>
             </div>
+            </form>
                 </div>
           </div>
           </div>
-          </form>
           </div>
 
 

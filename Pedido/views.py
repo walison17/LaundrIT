@@ -14,6 +14,7 @@ from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from Servico.models import Servico
 from .models import Pedido, Item, Roupa, Status, Suporte
+from django.utils import timezone
 
 from .forms import PedidoForm, ItemForm, StatusForm, SuporteForm
 from Servico.forms import ServicoForm
@@ -106,16 +107,44 @@ def suporte_usuario(request):
 
 def responder_suporte(request, id):
     if request.user.is_superuser:
+        suporte = Suporte.objects.all()
         suporte = get_object_or_404(Suporte, pk=id)
+        form = SuporteForm(request.POST or None, request.FILES or None)
+        resposta = request.POST.get('resposta', None)
+        form.email = suporte.email
+        form.nome_cliente = suporte.nome_cliente
+        form.cpf = suporte.cpf
+        form.mensagem = suporte.mensagem
+        form.resposta = resposta
+        form.data_mensagem = timezone.now()
+        print(form.email)
+        print(form.nome_cliente)
+        print(form.cpf)
+        print(form.mensagem)
+        print(form.resposta)
 
-        form = SuporteForm(request.POST or None, request.FILES or None, instance=suporte)
-        
-        if form.is_valid():
+        if not resposta:
+            messages.error(request, 'Você precisa enviar uma resposta..')
+            return render(request, 'pedido/responder_suporte.html', {'suporte': suporte})
+        print(form)
+        if form.is_valid():    
             form.save()
-            messages.success(request, 'E-mail enviado para cliente!')
+            save_it = form.save()
+            save_it.save()
+            subject = form.mensagem
+            message = form.resposta
+            from_email = settings.EMAIL_HOST_USER
+            to_list = ['janaina.antunes1@bol.com']
+            print('to aqui')
+
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             return redirect('suporte_admin')
-        return render(request, 'pedido/responder_suporte.html',{
-        'suporte': suporte})
+
+        print('to aqui fora')
+
+        return render(request, 'pedido/responder_suporte.html', {
+            'suporte': suporte,
+        })
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
