@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from Home.models import Cliente
 from django.http import HttpResponseNotFound
 from .models import Servico
-from Pedido.models import Pedido, Item, Roupa, Status
+from Pedido.models import Pedido, Item, Roupa, Status, StatusPedido
 
 from Pedido.forms import PedidoForm, ItemForm, RoupaForm, StatusForm
 from .forms import ServicoForm
@@ -19,7 +19,7 @@ from .forms import ServicoForm
 # Create your views here.
 
 
-
+@login_required
 def inicial(request):
     cliente = Cliente.objects.all()
     roupas = Roupa.objects.all().order_by('-id')
@@ -34,6 +34,7 @@ def inicial(request):
     })
 
 
+@login_required
 def administrador_usuario(request):
     if request.method != 'POST':
         return render(request, 'servico/inicial.html')
@@ -122,6 +123,7 @@ def administrador_usuario(request):
         return HttpResponseNotFound("Acesso Negado!")
 
 
+@login_required
 def administrador_roupa(request):
     if request.method != 'POST':
         return render(request, 'servico/inicial.html')
@@ -145,6 +147,7 @@ def administrador_roupa(request):
         return HttpResponseNotFound("Acesso Negado!")
 
 
+@login_required
 def administrador_servico(request):
     if request.method != 'POST':
         return render(request, 'servico/inicial.html')
@@ -167,16 +170,45 @@ def administrador_servico(request):
         return HttpResponseNotFound("Acesso Negado!")
 
 
+@login_required
 def historico_admin(request):
-    return render(request, 'servico/historico_admin.html')
+    pedido = Pedido.objects.all()
+    status = Status.objects.all()
 
+    return render(request, 'servico/historico_admin.html', {
+        'pedido': pedido,
+        'status': status,
+    })
+
+@login_required
+def historico_admin_pedido_ativo(request):
+    pedido = Pedido.objects.filter(situacao_pedido=1)
+    return render(request, 'servico/historico_admin.html', {
+        'pedido': pedido,
+    })
+
+@login_required
+def historico_admin_pedido_finalizado(request):
+    pedido = Pedido.objects.filter(situacao_pedido=2)
+    return render(request, 'servico/historico_admin.html',{
+        'pedido': pedido,
+    })
+
+@login_required
+def historico_admin_pedido_cancelado(request):
+    pedido = Pedido.objects.filter(situacao_pedido=3)
+    return render(request, 'servico/historico_admin.html',{
+        'pedido': pedido,
+    })
+
+@login_required
 def status_admin(request):
     if request.user.is_superuser:
         cliente = Cliente.objects.all()
         roupas = Roupa.objects.all()
         servico = Servico.objects.all()
         pedido = Pedido.objects.all()
-        status = Status.objects.all()
+        status = Status.objects.all().order_by('pedido')
         return render(request, 'servico/status_admin.html', {
             'cliente': cliente,
             'roupas': roupas,
@@ -187,10 +219,13 @@ def status_admin(request):
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
+@login_required
 def status_comentar_status_pedido(request, id):
     if request.user.is_superuser:
         pedido = get_object_or_404(Pedido, pk=id)
         status = Status.objects.all()
+        statuspedido = StatusPedido.objects.all()
+        print(statuspedido)
         pedido_escolha = Pedido.objects.all()
         form = StatusForm(request.POST or None, request.FILES or None)
         
@@ -202,14 +237,18 @@ def status_comentar_status_pedido(request, id):
             'status': status,
             'pedido': pedido,
             'pedido_escolha': pedido_escolha,
+            'statuspedido': statuspedido,
         })
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
 
+@login_required
 def historico_usuario(request):
+
     return render(request, 'servico/historico.html')
 
+@login_required
 def status_usuario(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
@@ -217,6 +256,7 @@ def status_usuario(request):
    
     return render(request, 'servico/status.html', { 'status': status,})
 
+@login_required
 def buscar_por_status(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
@@ -234,8 +274,6 @@ def buscar_por_status(request):
             'status': status,
         }
     )
-    print('to dentro')
-
 
     return render(request, 'servico/buscar_por_status.html')
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Pedido, Item, Roupa, Status, Suporte
+from .models import Pedido, Item, Roupa, Status, Suporte, StatusPedido
 
 
 class ItemInline(admin.TabularInline):
@@ -38,6 +38,11 @@ class Status(admin.ModelAdmin):
 class Suporte(admin.ModelAdmin):
     model = Suporte
     list_display = ['nome_cliente', 'email', 'cpf']
+
+@admin.register(StatusPedido)
+class StatusPedido(admin.ModelAdmin):
+    model = StatusPedido
+    
     
     
 

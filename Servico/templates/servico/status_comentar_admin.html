@@ -95,14 +95,14 @@
             <label>Status Pedido</label>
             <select class="form-control" name="situacao_pedido" id="situacao_pedido">
             <option value>----------------</option>
-            <option value="Pedido Ativo">Pedido Ativo</option>
-            <option value="Pedido Finalizado">Pedido Finalizado</option>
-            <option value="Pedido Cancelado">Pedido Cancelado</option>
+            {% for statuspedido in statuspedido.all %}
+            <option value={{ statuspedido.id }}>{{ statuspedido }}</option>
+            {% endfor %}
             </select>
             </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-5">
             <div class="form-group">
                 <label>Data do Comentário:</label>
 

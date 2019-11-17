@@ -24,6 +24,7 @@ from Servico.forms import ServicoForm
 
 # --- admin... ---
 
+@login_required
 def pedidos_admin(request):
     cliente = Cliente.objects.all()
     roupas = Roupa.objects.all()
@@ -39,6 +40,7 @@ def pedidos_admin(request):
             'servico': servico,
                 })
 
+@login_required
 def pedidos_usuario(request):
     cliente = Cliente.objects.all()
     itens = Item.objects.all()
@@ -56,20 +58,25 @@ def pedidos_usuario(request):
             'servico': servico,
                 })
 
+@login_required
 def adicionar_item(request):
     return render(request, 'pedido/pedidos.html')
 
+@login_required
 def update_item(request):
     return render(request, 'pedido/pedidos.html')
 
+@login_required
 def pagamento(request):
     return render(request, 'pedido/pagamento.html')
 
+@login_required
 def suporte_admin(request):
     suporte = Suporte.objects.all().order_by('-data_mensagem')
 
     return render(request, 'pedido/suporte_admin.html', {'suporte' : suporte})
 
+@login_required
 def suporte_usuario(request):
     if request.method != 'POST':
         return render(request, 'pedido/suporte.html')
@@ -105,11 +112,13 @@ def suporte_usuario(request):
     return render(request, 'pedido/suporte.html')
 
 
+@login_required
 def responder_suporte(request, id):
     if request.user.is_superuser:
         suporte = Suporte.objects.all()
         suporte = get_object_or_404(Suporte, pk=id)
         form = SuporteForm(request.POST or None, request.FILES or None)
+        print(form)
         resposta = request.POST.get('resposta', None)
         form.email = suporte.email
         form.nome_cliente = suporte.nome_cliente
@@ -126,7 +135,13 @@ def responder_suporte(request, id):
         if not resposta:
             messages.error(request, 'Você precisa enviar uma resposta..')
             return render(request, 'pedido/responder_suporte.html', {'suporte': suporte})
-        print(form)
+        subject = form.mensagem
+        message = form.resposta
+        from_email = settings.EMAIL_HOST_USER
+        to_list = ['janaina.antunes1@bol.com']
+        send_mail(subject, message, from_email, to_list, fail_silently=True)
+        print('to aqui')
+
         if form.is_valid():    
             form.save()
             save_it = form.save()

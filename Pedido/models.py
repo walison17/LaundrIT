@@ -10,16 +10,31 @@ from Home.models import Cliente
 
 # Create your models here.
 
+class StatusPedido(models.Model):
+    PEDIDO_ATIVO = 'Pedido Ativo'
+    PEDIDO_FINALIZADO = 'Pedido Finalizado'
+    PEDIDO_CANCELADO = 'Pedido Cancelado'
+    STATUS =(
+        (PEDIDO_ATIVO, 'Pedido Ativo'),
+        (PEDIDO_FINALIZADO, 'Pedido Finalizado'),
+        (PEDIDO_CANCELADO, 'Pedido Cancelado')
+    )
+    situacao_pedido = models.CharField(
+        'Situação', max_length=50, choices=STATUS, default=PEDIDO_ATIVO)
+
+    def __str__(self):
+        return ' %s ' % self.situacao_pedido
+
 class Pedido(UUIDModel, TimeStampedModel):
     BOLETO = 'Boleto Bancário'
-    CARTAO_DEBITO = 'Cartão de Debíto'
-    CARTAO_CREDITO = 'Cartão de Credito'
-    TRANSFERENCIA = 'Transferencia Bancária'
+    CARTAO_DEBITO = 'Cartão de Débito'
+    CARTAO_CREDITO = 'Cartão de Crédito'
+    TRANSFERENCIA = 'Transferência Bancária'
     PAGAMENTO =(
         (BOLETO, 'Boleto Bancário'),
-        (CARTAO_DEBITO, 'Cartão de Debíto'),
-        (CARTAO_CREDITO, 'Cartão de Credito'),
-        (TRANSFERENCIA, 'Transferencia Bancária')
+        (CARTAO_DEBITO, 'Cartão de Débito'),
+        (CARTAO_CREDITO, 'Cartão de Crédito'),
+        (TRANSFERENCIA, 'Transferência Bancária')
     )
     id = models.AutoField(primary_key=True)
     solicitante = models.ForeignKey(Cliente,
@@ -30,6 +45,7 @@ class Pedido(UUIDModel, TimeStampedModel):
     
     data_solicitacao = models.DateTimeField(
         default=timezone.now, verbose_name="Data da Postagem")
+
     data_entrega = models.DateTimeField(default=timezone.now, verbose_name="Data de Entrega"
     )
 
@@ -41,7 +57,7 @@ class Pedido(UUIDModel, TimeStampedModel):
         editable=False
     )
     pagamento = models.CharField('Pagamento', max_length=50, choices=PAGAMENTO, default=BOLETO, null=False, blank=False)
-    
+    situacao_pedido = models.ForeignKey(StatusPedido, verbose_name="Status Pedido", on_delete=models.PROTECT)
     class Meta:
         verbose_name = 'pedido'
         verbose_name_plural = 'pedidos'
@@ -63,18 +79,8 @@ class Status(models.Model):
         verbose_name = 'Pedido',
         related_name = 'pedido',
         on_delete = models.PROTECT)
-
-    PEDIDO_ATIVO = 'Pedido Ativo'
-    PEDIDO_FINALIZADO = 'Pedido Finalizado'
-    PEDIDO_CANCELADO = 'Pedido Cancelado'
-    STATUS =(
-        (PEDIDO_ATIVO, 'Pedido Ativo'),
-        (PEDIDO_FINALIZADO, 'Pedido Finalizado'),
-        (PEDIDO_CANCELADO, 'Pedido Cancelado')
-    )
     comentario = models.TextField(null=False, blank=False, verbose_name="Comentar Status")
-    situacao_pedido = models.CharField(
-        'Situação', max_length=50, choices=STATUS, default=PEDIDO_ATIVO)
+    situacao_pedido = models.ForeignKey(StatusPedido, verbose_name="Status do Pedido", on_delete=models.PROTECT)
     data_comentario = models.DateTimeField(default=timezone.now, verbose_name="Data do Comentario")
 
 
