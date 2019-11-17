@@ -20,7 +20,7 @@ def login(request):
 
 def my_logout(request):
     logout(request)
-    return redirect('home/home.html')  
+    return redirect('login')  
 
 def cadastro(request):
 

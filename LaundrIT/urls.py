@@ -20,11 +20,13 @@ from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
 
+from Home.views import my_logout
 from Servico.views import inicial
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name='home/login.html'), name='login'),
+    path('logout/', my_logout, name='my_logout'),
     path('inicial/', inicial, name='inicial'),
     path('', include('Home.urls')),
     path('servico/', include('Servico.urls')),
