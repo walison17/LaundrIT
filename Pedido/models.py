@@ -54,7 +54,7 @@ class Pedido(UUIDModel, TimeStampedModel):
         max_digits=7,
         decimal_places=2,
         null=True,
-        editable=False
+        editable=True,
     )
     pagamento = models.CharField('Pagamento', max_length=50, choices=PAGAMENTO, default=BOLETO, null=False, blank=False)
     situacao_pedido = models.ForeignKey(StatusPedido, verbose_name="Status Pedido", on_delete=models.PROTECT)
@@ -149,7 +149,7 @@ class Suporte(models.Model):
         MinValueValidator(11111111111)
     ])
     mensagem = models.TextField(max_length=255, blank=False, null=False,)
-    data_mensagem = models.DateTimeField(default=timezone.now(), blank=True, null=True)
+    data_mensagem = models.DateTimeField(default=timezone.now, blank=True, null=True)
     resposta = models.TextField(max_length=255, blank=False, null=False)
     #numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
 

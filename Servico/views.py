@@ -262,8 +262,8 @@ def status_comentar_status_pedido(request, id):
 def historico_usuario(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
-    pedido = Pedido.objects.all().filter(solicitante=user)
+    user = request.user.cliente
+    pedido = Pedido.objects.filter(solicitante=user)
     status = Status.objects.all()
     return render(request, 'servico/historico.html', {
         'pedido': pedido,
@@ -274,7 +274,7 @@ def historico_usuario(request):
 def historico_usuario_pedido_ativo(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
+    user = request.user.cliente
     pedido = Pedido.objects.all().filter(solicitante=user).filter(situacao_pedido=1)
     return render(request, 'servico/historico.html', {
         'pedido': pedido,
@@ -284,7 +284,7 @@ def historico_usuario_pedido_ativo(request):
 def historico_usuario_pedido_finalizado(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
+    user = request.user.cliente
     pedido = Pedido.objects.all().filter(solicitante=user).filter(situacao_pedido=2)
     return render(request, 'servico/historico.html', {
         'pedido': pedido,
@@ -294,7 +294,7 @@ def historico_usuario_pedido_finalizado(request):
 def historico_usuario_pedido_cancelado(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
+    user = request.user.cliente
     pedido = Pedido.objects.all().filter(solicitante=user).filter(situacao_pedido=3)
     return render(request, 'servico/historico.html', {
         'pedido': pedido,
@@ -306,7 +306,7 @@ def historico_usuario_pedido_cancelado(request):
 def status_usuario(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
+    user = request.user.cliente
     status = Status.objects.all().filter(pedido__solicitante=user)
    
     return render(request, 'servico/status.html', { 'status': status,})
@@ -315,7 +315,7 @@ def status_usuario(request):
 def buscar_por_status(request):
     if request.user.is_superuser:
         return HttpResponseNotFound("Acesso Negado!")
-    user = request.user.id
+    user = request.user.cliente
     termo = request.GET.get('termo', None)
     status = Status.objects.all()
     if termo:
