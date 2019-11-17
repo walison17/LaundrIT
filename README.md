@@ -1,5 +1,5 @@
 # LaundrIT
-This is the Project to my girlfriends TCC
+This is the Project to my girlfriend's Integrated Project
 
 
 Primeiro dia de atualizações !
