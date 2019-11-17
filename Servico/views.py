@@ -25,12 +25,21 @@ def inicial(request):
     roupas = Roupa.objects.all().order_by('-id')
     servico = Servico.objects.all().order_by('-id')
     paginator_roupa = Paginator(roupas, 3)
-    paginator_servico = Paginator(servico, 3)
     roupas = paginator_roupa.get_page('p')
+    paginator_servico = Paginator(servico, 3)
     servico = paginator_servico.get_page('q')
+    
+    #usuario
+    user = request.user.cliente
+    pedido = Pedido.objects.filter(solicitante=user).filter(situacao_pedido__exact=1)
+    paginator = Paginator(pedido, 10)
+    page = request.GET.get('p')
+    pedido = paginator.get_page(page)
+
     return render(request, 'servico/inicial.html', {
         'roupas': roupas,
         'servico': servico,
+        'pedido': pedido,
     })
 
 
@@ -174,6 +183,9 @@ def administrador_servico(request):
 def historico_admin(request):
     if request.user.is_superuser:
         pedido = Pedido.objects.all()
+        paginator = Paginator(pedido, 10)
+        page = request.GET.get('p')
+        pedido = paginator.get_page(page)
         status = Status.objects.all()
 
         return render(request, 'servico/historico_admin.html', {

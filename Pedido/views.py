@@ -28,7 +28,10 @@ from Servico.forms import ServicoForm
 def pedidos_admin(request):
     cliente = Cliente.objects.all()
     roupas = Roupa.objects.all()
-    pedido = Pedido.objects.all()
+    pedido = Pedido.objects.all().filter(situacao_pedido__exact=1)
+    paginator = Paginator(pedido, 10)
+    page = request.GET.get('p')
+    pedido = paginator.get_page(page)
     servico =  Servico.objects.all()
     status = Status.objects.all()
 

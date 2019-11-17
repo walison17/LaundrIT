@@ -19,7 +19,7 @@ class PedidoForm(ModelForm):
     class Meta:
         model = Pedido
 
-        fields = ['solicitante', 'data_solicitacao', 'pagamento', 'data_entrega']
+        fields = ['solicitante', 'data_solicitacao', 'pagamento', 'data_entrega',]
 
 class RoupaForm(ModelForm):
 

@@ -6,7 +6,7 @@ from .views import pedidos_admin, pedidos_usuario, adicionar_item, update_item
 from .views import pagamento, suporte_admin, suporte_usuario, responder_suporte
 
 urlpatterns = [
-    path('pedidios_admin/', pedidos_admin, name='pedidos_admin'),
+    path('pedidos_admin/', pedidos_admin, name='pedidos_admin'),
     path('pedidos_usuario/', pedidos_usuario, name='pedidos_usuario'),
     path('adicionar_item/', adicionar_item, name='adcionar_item'),
     path('update_item/', update_item, name='update_item'),

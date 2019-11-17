@@ -114,7 +114,7 @@
                   <tr> 
                   {% for pedido in pedido %}
                   <td><a href="#" class="edit-pedido" >
-                  <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a></td>
+                  <i class="fa fa-eye" aria-hidden="true" title="Visualizar"></i></a></td>
                   <td>{{ pedido.id }}</td>
                   <td>{{ pedido.solicitante.nome_cliente }}</td>
                   <td>{{ pedido.data_solicitacao }}</td>
@@ -128,17 +128,15 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-                          <ul class="pagination">
-              <li class="paginate_button previous disabled" id="example2_previous">
-              <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Anterior</a></li>
-              <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
-              <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
-              <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
-              <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
-              <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
-              <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-              <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Próximo</a></li>
-              </ul>
+                           <ul class="pagination ">
+                    {% for pagina in pedido.paginator.page_range %} {% if pedido.number == pagina %}
+                    <li class="paginate_button active ">
+                        <a href="?p={{ pagina }}">{{ pagina }}</a></li>
+                    {% else %}
+                    <li class="paginate_button "><a class="page-link " href="?p={{ pagina }}">{{ pagina }}
+                    </a></li>
+                    {% endif %} {% endfor %}
+                </ul>
 
             </div>
           </div>
