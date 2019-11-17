@@ -102,7 +102,7 @@
                   <td><a href="{% url 'status_comentar_status_pedido' pedido.id %}" class="edit-status" >
                   <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a></td>
                   <td>{{ pedido.id }}</td>
-                  <td>{{ pedido.solicitante }}</td>
+                  <td>{{ pedido.solicitante.nome_cliente }}</td>
                   <td>{{ pedido.data_solicitacao }}</td>
                   <td>{{ pedido.data_entrega }}</td>
                   <td>{{ pedido.valor_total }}</td>
@@ -145,7 +145,7 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tbody>
-                  <th style="width : 5px;"> ID Pedido </th>
+                  <th style="width : 10%;"> ID Pedido </th>
                   <th> Nome do Cliente </th>
                   <th>Situação</th>
                   <th>Data Comentário</th>
@@ -154,7 +154,7 @@
                   <tr> 
                   {% for status in status %}
                   <td>{{ status.pedido }}</td>
-                  <td>{{ status.pedido.solicitante }}
+                  <td>{{ status.pedido.solicitante.nome_cliente }}
                   <td>{{ status.situacao_pedido }}</td>
                   <td>{{ status.data_comentario }}</td>
                   <td><textarea style="resize: none;" rows="2" cols="50" disabled>{{ status.comentario }}</textarea></td>           

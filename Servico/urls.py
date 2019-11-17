@@ -5,7 +5,9 @@ from django.urls import path
 from .views import administrador_usuario, administrador_servico, historico_usuario, \
     administrador_roupa, historico_admin, status_admin, status_usuario, \
     status_comentar_status_pedido, buscar_por_status, historico_admin_pedido_ativo, \
-    historico_admin_pedido_finalizado, historico_admin_pedido_cancelado    
+    historico_admin_pedido_finalizado, historico_admin_pedido_cancelado,\
+    historico_usuario_pedido_ativo, historico_usuario_pedido_finalizado, \
+    historico_usuario_pedido_cancelado  
 
 
 
@@ -19,6 +21,9 @@ urlpatterns = [
     path('historico_admin_pedido_finalizado/', historico_admin_pedido_finalizado, name="historico_admin_pedido_finalizado"),
     path('historico_admin_pedido_cancelado/', historico_admin_pedido_cancelado, name="historico_admin_pedido_cancelado" ),
     path('historico_usuario/', historico_usuario, name='historico_usuario'),
+    path('historico_usuario_pedido_ativo/', historico_usuario_pedido_ativo, name="historico_usuario_pedido_ativo"),
+    path('historico_usuario_pedido_finalizado/', historico_usuario_pedido_finalizado, name="historico_usuario_pedido_finalizado"),
+    path('historico_usuario_pedido_cancelado/', historico_usuario_pedido_cancelado, name="historico_usuario_pedido_cancelado" ),
     path('status_admin/', status_admin, name='status_admin'),
     path('status_usuario/', status_usuario, name='status_usuario'),
     path('status_comentar_status_pedido/<int:id>/', status_comentar_status_pedido, name='status_comentar_status_pedido'),

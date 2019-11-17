@@ -72,11 +72,11 @@
                     <span class="sr-only"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{% url 'historico_admin_pedido_ativo' %}">Pedidos Ativos</a></li>
-                    <li><a href="{% url 'historico_admin_pedido_finalizado' %}">Pedidos Finalizados</a></li>
-                    <li><a href="{% url 'historico_admin_pedido_cancelado' %}">Pedidos Cancelados</a></li>
+                    <li><a href="{% url 'historico_usuario_pedido_ativo' %}">Pedidos Ativos</a></li>
+                    <li><a href="{% url 'historico_usuario_pedido_finalizado' %}">Pedidos Finalizados</a></li>
+                    <li><a href="{% url 'historico_usuario_pedido_cancelado' %}">Pedidos Cancelados</a></li>
                     <li class="divider"></li>
-                    <li><a href="{% url 'historico_admin' %}">Ver Todos os Pedidos</a></li>
+                    <li><a href="{% url 'historico_usuario' %}">Ver Todos os Pedidos</a></li>
                   </ul>
                 </div>
 
@@ -117,7 +117,7 @@
                   <td><a href="#" class="edit-pedido" >
                   <i class="fa fa-edit" aria-hidden="true" title="Editar"></i></a></td>
                   <td>{{ pedido.id }}</td>
-                  <td>{{ pedido.solicitante }}</td>
+                  <td>{{ pedido.solicitante.nome_cliente }}</td>
                   <td>{{ pedido.data_solicitacao }}</td>
                   <td>{{ pedido.data_entrega }}</td>
                   <td>{{ pedido.valor_total }}</td>
