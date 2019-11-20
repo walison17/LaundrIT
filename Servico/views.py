@@ -30,16 +30,19 @@ def inicial(request):
     servico = paginator_servico.get_page('q')
     
     #usuario
-    user = request.user.cliente
-    pedido = Pedido.objects.filter(solicitante=user).filter(situacao_pedido__exact=1)
-    paginator = Paginator(pedido, 10)
-    page = request.GET.get('p')
-    pedido = paginator.get_page(page)
+    if not request.user.is_superuser:
+        user =request.user.cliente
+        pedido = Pedido.objects.filter(solicitante=user).filter(situacao_pedido__exact=1)
+        paginator = Paginator(pedido, 10)
+        page = request.GET.get('p')
+        pedido = paginator.get_page(page)
+        return render(request, 'servico/inicial.html', {
+        'servico': servico,
+    })
 
     return render(request, 'servico/inicial.html', {
         'roupas': roupas,
         'servico': servico,
-        'pedido': pedido,
     })
 
 
