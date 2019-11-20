@@ -59,73 +59,43 @@
 
 {% block main %}
 
+
+<div class="container">
 <div class="row">
-<div class="col-md-12">
-<div class="box box-primary">
+<div class="col-md-11">
+
+          <div class="box box-danger">
             <div class="box-header">
-              <h3 class="box-title">Dados Pessoais</h3>
+              <h3 class="box-title">Pedido  Número [{{ pedido.id }}] </h3>
             </div>
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %} {{ form.errors }}
-              <!-- Date dd/mm/yyyy -->
-              <div class="col-md-6">
+
+        
+              <div class="col-md-4">
               <div class="form-group">
-                <label>Nome do Cliente:</label>
+                <label>Nome do Cliente : </label>
 
                 <div class="input-group">
                   <div class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </div>
-                  <input type="text" class="form-control" value="{{user.cliente.nome_cliente}}" readonly>
+                  <input type="text" class="form-control" id="solicitante" value="{{ pedido.solicitante }}" name="solicitante" disabled>
                 </div>
-                <!-- /.input group -->
+               
               </div>
-              <!-- /.form group -->
+              
               </div>
 
-            <div class="col-md-6">
-              <!-- phone mask -->
+              
+              <div class="col-md-4">
               <div class="form-group">
-                <label>E-mail:</label>
+                <label>Data da Solicitação : </label>
 
                 <div class="input-group">
                   <div class="input-group-addon">
-                    <i class="fa fa-envelope-o"></i>
+                    <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="email" class="form-control" value="{{ user.email }}" readonly>
-                </div>
-                <!-- /.input group -->
-              </div>
-              <!-- /.form group -->
-              </div>
-
-            <div class="col-md-4">
-              <!-- phone mask -->
-              <div class="form-group">
-                <label>CPF:</label>
-
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-list-alt"></i>
-                  </div>
-                  <input type="text" class="form-control" id="cpf" value="{{ user.cliente.cpf }}" readonly>
-                </div>
-                <!-- /.input group -->
-              </div>
-              <!-- /.form group -->
-              </div>
-
-            <div class="col-md-4">
-              <!-- IP mask -->
-              <div class="form-group">
-                <label>Endereço:</label>
-
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-home"></i>
-                  </div>
-                  <input type="text" class="form-control" id="endereco" value="{{ user.cliente.endereco }}" readonly>
+                  <input type="text" class="form-control" id="data_solicitacao" value="{{ pedido.data_solicitacao }}" name="data_solicitacao" disabled>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -133,101 +103,95 @@
               </div>
 
               <div class="col-md-4">
-              <!-- IP mask -->
               <div class="form-group">
-                <label>Telefone:</label>
+                <label>Data para Entrega : </label>
 
                 <div class="input-group">
                   <div class="input-group-addon">
-                    <i class="fa fa-phone"></i>
-                  </div>
-                  <input type="text" class="form-control" id="telefone" value="{{ user.cliente.telefone }}" readonly>
-                </div>
-                <!-- /.input group -->
-              </div>
-              <!-- /.form group -->
-              </div>
-
-            <div class="col-md-4">
-            <div class="form-group">
-            <label> Data para Entrega : </lable>
-              <div class="input-group date">
-                  <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" class="form-control pull-right">
+                  <input type="text" class="form-control" id="data_entrega" value="{{ pedido.data_entrega }}" name="data_entrega" disabled>
                 </div>
                 <!-- /.input group -->
               </div>
               <!-- /.form group -->
               </div>
-              
+
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>Pagamento : </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-cart-plus"></i>
+                  </div>
+                  <input type="text" class="form-control" id="pagamento" name="pagamento" value="{{ pedido.pagamento }}" disabled>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
+
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>Status do Pedido : </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-tasks"></i>
+                  </div>
+                  <input type="text" class="form-control" id="situacao_pedido" name="situacao_pedido" value="{{ pedido.situacao_pedido }}" disabled>
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+              </div>
 
 
-            </div>
-            <!-- /.box-body -->
-
-<div class="row">
 <div class="col-md-12">
+            <h5><strong>ITENS</strong></h5>
 
-<div class="box">
-            <div class="box-header">
-              <h3 class="box-title">PEDIDO</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                 <thead>
                 <tr role="row">
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 10%;">Quantidade</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 20%;">Serviço</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 30%;">Itens</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 10%;">Preço</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"  style="width: 6%;"></th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 10%;">Quantidade</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 20%;">Serviço</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 30%;">Itens</th>
+                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 10%;">Preço Unitário</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr role="row" class="even">
                 <td class="table-info"> <input type="number" name="quantidade" class="form-control" min="0" id="items_quantidade"> </td>
                 <td class="table-info">
-     <select class="form-control" name="nome_servico" id="nome_servico">
-                    <option value>---------------------------------------</option>
-                    {% for servico in servico %}
-                    <option id="nome_servico">{{ servico.nome_servico }}</option>
-                    {% endfor %}
+     <select class="form-control" name="servico" id="servico">
+                    <option value="">---------------------------------------</option>
+                    
                   </select>
-                </div>
+                
     </td>
     <td class="table-info">
-     <select class="form-control" name="nome_peca" id="nome_peca">
-                    <option value>---------------------------------------</option>
-                    {% for roupas in roupas %}
-                    <option id="nome_peca" name="nome_peca">{{ roupas.nome_peca }}</option>
-                    {% endfor %}
+     <select class="form-control" name="roupa" id="roupa">
+                    <option value="">---------------------------------------</option>
+                    
                   </select>
-                </div>
+                
     </td>
-    <td class="table-info" id="preco_unitario" name="preco_unitario" > R$ {{ item.preco_unitario }}</td>
-    <td class="table-info"><a href="#" class="btn btn-danger btn-sm" id="remove">Excluir</a></td>
+    <td class="table-info" id="preco_unitario" name="preco_unitario"> R$ </td>
     </tr>
                 </tbody>
                 <tfoot>
-                <tr id="addrow"><td colspan="6"><a  class="btn btn-primary btn-sm" href="#">Adicionar outro Item</a></td></tr>
                 </tfoot>
               </table>
-              <div class="pull-right">
-              <a href="{% url 'inicial' %}" type="button" class="btn btn-warning">Voltar</a>
-<button type="button" class="btn btn-primary float-right">Finalizar Pedido</button>
-</div>
-              </div>
-              </div>
-              </form>
-</div>
-</div>
+
+            </div>
+            <!-- /.box-body -->
           </div>
-          <!-- aqui fecha o formulário...-->
+          <!-- /.box -->
+
 </div>
+        </div>
+        </div>
+        </div>
 
-
- 
 {% endblock %}

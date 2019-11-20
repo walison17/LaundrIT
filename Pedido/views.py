@@ -121,7 +121,7 @@ def responder_suporte(request, id):
         suporte = Suporte.objects.all()
         suporte = get_object_or_404(Suporte, pk=id)
         form = SuporteForm(request.POST or None, request.FILES or None)
-        print(form)
+
         resposta = request.POST.get('resposta', None)
         form.email = suporte.email
         form.nome_cliente = suporte.nome_cliente
@@ -129,11 +129,7 @@ def responder_suporte(request, id):
         form.mensagem = suporte.mensagem
         form.resposta = resposta
         form.data_mensagem = timezone.now()
-        print(form.email)
-        print(form.nome_cliente)
-        print(form.cpf)
-        print(form.mensagem)
-        print(form.resposta)
+      
 
         if not resposta:
             messages.error(request, 'Você precisa enviar uma resposta..')
@@ -166,4 +162,11 @@ def responder_suporte(request, id):
     else:
         return HttpResponseNotFound("Acesso Negado!")
 
+def ver_pedido(request, id):
+        pedido = get_object_or_404(Pedido, pk=id)
+        form = PedidoForm(request.POST or None, request.FILES or None)
+        return render(request, 'pedido/ver_pedido.html', {
+            'form': form,
+            'pedido': pedido,
+            } )
     

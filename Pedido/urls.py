@@ -4,6 +4,7 @@ from django.urls import path
 
 from .views import pedidos_admin, pedidos_usuario, adicionar_item, update_item
 from .views import pagamento, suporte_admin, suporte_usuario, responder_suporte
+from .views import ver_pedido
 
 urlpatterns = [
     path('pedidos_admin/', pedidos_admin, name='pedidos_admin'),
@@ -13,6 +14,7 @@ urlpatterns = [
     path('pagamento/', pagamento, name='pagamento'),
     path('suporte_admin/', suporte_admin, name='suporte_admin'),
     path('suporte_usuario/', suporte_usuario, name='suporte_usuario'),
-    path('responder_suporte/<int:id>/', responder_suporte, name='responder_suporte')
+    path('responder_suporte/<int:id>/', responder_suporte, name='responder_suporte'),
+    path('ver_pedido/<int:id>/', ver_pedido, name="ver_pedido")
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

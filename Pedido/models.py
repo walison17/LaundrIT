@@ -72,6 +72,11 @@ class Pedido(UUIDModel, TimeStampedModel):
         )
         return self.items.aggregate(valor_total=Sum(expression))['valor_total']
 
+    def save(self, *args, **kwargs):
+        print('something')
+        self.valor_total = self.calcular_valor()
+        super(Pedido, self).save(*args, **kwargs)
+
 class Status(models.Model):
     id = models.AutoField(primary_key=True)
     pedido = models.ForeignKey(
@@ -102,7 +107,7 @@ class Roupa(UUIDModel, TimeStampedModel):
         return self.nome_peca
 
 class Item(TimeStampedModel):
-    quantidade = models.PositiveIntegerField('Quantidade', default=1)
+    quantidade = models.PositiveIntegerField(verbose_name='Quantidade', default=1)
     preco_unitario = DecimalField(
         'Preço Unitário', max_digits=5, decimal_places=2, editable=False
     )
@@ -131,13 +136,12 @@ class Item(TimeStampedModel):
         ordering = ('-created',)
 
     def __str__(self):
-        return f'{self.quantidade} x {self.servico} + {self.roupa}'
+        return f'({self.servico} + {self.roupa})'
 
     def save(self, *args, **kwargs):
-        self.preco_unitario =  self.quantidade * (self.servico.preco_servico + self.roupa.preco_roupa)
+        self.preco_unitario = (self.servico.preco_servico + self.roupa.preco_roupa)
         return super().save(*args, **kwargs)
-
-
+    
 
 
 class Suporte(models.Model):
