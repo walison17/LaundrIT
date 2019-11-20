@@ -153,8 +153,8 @@ class Suporte(models.Model):
         MinValueValidator(11111111111)
     ])
     mensagem = models.TextField(max_length=255, blank=False, null=False,)
-    data_mensagem = models.DateTimeField(default=timezone.now, blank=True, null=True)
-    resposta = models.TextField(max_length=255, blank=False, null=False)
+    resposta = models.TextField(max_length=255, blank=False, null=False, default="LaundrIT")
+    data_mensagem = models.DateTimeField(default=timezone.now, verbose_name="Data do Comentario")
     #numero_pedido = models.ForeignKey(Pedido, null=True, blank=True, verbose_name="Número do Pedido", on_delete=models.PROTECT)
 
     def __str__(self):

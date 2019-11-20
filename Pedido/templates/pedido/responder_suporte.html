@@ -81,7 +81,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </div>
-                  <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" value="{{ suporte.nome_cliente }}" disabled>
+                  <input type="text" class="form-control" id="id_nome_cliente" name="nome_cliente" value="{{ suporte.nome_cliente }}"  readonly>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -97,7 +97,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-envelope-o"></i>
                   </div>
-                  <input type="text" class="form-control" id="email" name="email" value="{{ suporte.email }}" disabled>
+                  <input type="email" class="form-control" id="id_email" name="email" value="{{ suporte.email }}" readonly>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -112,7 +112,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-list-alt"></i>
                   </div>
-                  <input type="text" class="form-control" id="cpf" name="cpf" value="{{ suporte.cpf }}" disabled>
+                  <input type="text" class="form-control" id="id_cpf" name="cpf" value="{{ suporte.cpf }}" readonly>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -121,13 +121,13 @@
                 <div class="col-md-12">
                 <div class="form-group">
                 <label> Messagem do Cliente : </label>
-                <textarea  id="mensagem" name="mensagem" value="{{ suporte.mensagem }}" class="form-control" rows="3" style="resize: none;" disabled>{{ suporte.mensagem }}</textarea>
+                <textarea  id="id_mensagem" name="mensagem"  class="form-control" rows="3" style="resize: none;" value="{{ suporte.mensagem }}" style="resize: none;" readonly>{{ suporte.mensagem }}</textarea>
                 </div>
                 </div>
 
                 <div class="col-md-12">
                 <div class="form-group">
-                <textarea class="form-control" rows="3" id="id_resposta" name='resposta' placeholder="Digite sua resposta aqui..." style="resize: none;" value="{{ suporte.resposta }}"></textarea>
+                <textarea class="form-control" rows="3" id="id_resposta" name='resposta' placeholder="Digite sua resposta aqui..." style="resize: none;" value="{{ suporte.resposta }}"> {{ suporte.resposta }}</textarea>
                 </div>
                 </div>
 

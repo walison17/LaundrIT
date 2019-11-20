@@ -75,7 +75,7 @@ def pagamento(request):
 
 @login_required
 def suporte_admin(request):
-    suporte = Suporte.objects.all().order_by('-data_mensagem')
+    suporte = Suporte.objects.all().order_by('-id')
 
     return render(request, 'pedido/suporte_admin.html', {'suporte' : suporte})
 
@@ -115,52 +115,46 @@ def suporte_usuario(request):
     return render(request, 'pedido/suporte.html')
 
 
+
 @login_required
 def responder_suporte(request, id):
     if request.user.is_superuser:
         suporte = Suporte.objects.all()
         suporte = get_object_or_404(Suporte, pk=id)
-        form = SuporteForm(request.POST or None, request.FILES or None)
+        form = SuporteForm(request.POST or None, request.FILES or None, instance=suporte)
+  
 
         resposta = request.POST.get('resposta', None)
-        form.email = suporte.email
-        form.nome_cliente = suporte.nome_cliente
-        form.cpf = suporte.cpf
-        form.mensagem = suporte.mensagem
-        form.resposta = resposta
-        form.data_mensagem = timezone.now()
-      
+        cpf = suporte.cpf
+        email = suporte.email
+        nome_cliente = suporte.nome_cliente
+        mensagem = suporte.mensagem
 
-        if not resposta:
-            messages.error(request, 'Você precisa enviar uma resposta..')
-            return render(request, 'pedido/responder_suporte.html', {'suporte': suporte})
-        subject = form.mensagem
-        message = form.resposta
-        from_email = settings.EMAIL_HOST_USER
-        to_list = ['janaina.antunes1@bol.com']
-        send_mail(subject, message, from_email, to_list, fail_silently=True)
-        print('to aqui')
+      
 
         if form.is_valid():    
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = form.mensagem
-            message = form.resposta
+            subject = mensagem
+            message = resposta
             from_email = settings.EMAIL_HOST_USER
-            to_list = ['janaina.antunes1@bol.com']
-            print('to aqui')
+            to_list = [email, settings.EMAIL_HOST_USER]
 
             send_mail(subject, message, from_email, to_list, fail_silently=True)
+            messages.success(request, f' E-mail enviado com sucesso para {email}')
             return redirect('suporte_admin')
+        if not mensagem:
+            message.error(request, f'Campo de Mensagem Vázio.' )
+            return redirect('responder_suporte')
 
-        print('to aqui fora')
 
         return render(request, 'pedido/responder_suporte.html', {
             'suporte': suporte,
         })
     else:
         return HttpResponseNotFound("Acesso Negado!")
+
 
 def ver_pedido(request, id):
         pedido = get_object_or_404(Pedido, pk=id)
