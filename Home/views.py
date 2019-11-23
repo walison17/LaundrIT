@@ -87,24 +87,49 @@ def cadastro(request):
 
  
 def alterar_perfil(request):
-    if request.user.is_superuser:
-        user = request.user
-        cliente = None
-    else:
+    if not request.user.is_superuser:
         cliente = request.user.cliente
         user = request.user
     
-    if request.method == 'POST':
-        form =UserChangeForm(request.POST, instance=request.user)
+        if request.method == 'POST':
+            form =ClienteForm(request.POST, instance=request.user.cliente)
 
-        if form.isvalid():
-            form.save()
-            return redirect('inicial')
+            if form.is_valid():
+                form.save()
+                messages.success(request, ' Dados alterado com sucesso!')
+            else:
+                messages.error(request, 'Erro! verifique os campos.')
+        
+        else:
+            form = ClienteForm(instance=request.user.cliente)
     
+            return render(request, 'home/alterar_perfil.html', {
+                'form': form,
+                'user': user,
+                'cliente': cliente})
     else:
-        form = UserChangeForm(instance=request.user)
-    
+        user = request.user
+        return render(request, 'home/alterar_perfil.html', {
+            'user': user,
+        })
+
+
+
+
+def alterar_usuario(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        print(form)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, ' Dados alterado com sucesso!')
+        else:
+            messages.error(request, 'Erro! verifique os campos.')
+    else:
+        form = UserChangeForm(instance=request.user.cliente)
+
         return render(request, 'home/alterar_perfil.html', {
             'form': form,
-            'user': user,
-            'cliente': cliente})
+            'user': user,})
