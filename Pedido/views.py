@@ -52,6 +52,13 @@ def pedidos_usuario(request):
     servico =  Servico.objects.all()
     status = Status.objects.all()
 
+    form = PedidoForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        form.save()
+
+        return redirect('pagamento')
+
     return render(request, 'pedido/pedidos.html', {
             'cliente': cliente,
             'roupas': roupas,
@@ -60,6 +67,7 @@ def pedidos_usuario(request):
             'pedido': pedido,
             'servico': servico,
                 })
+
 
 @login_required
 def adicionar_item(request):

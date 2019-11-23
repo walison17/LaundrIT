@@ -5,7 +5,7 @@ from .models import Pedido, Item, Roupa, Status, Suporte, StatusPedido
 
 class ItemInline(admin.TabularInline):
     model = Item
-    readonly_fields = ['preco_unitario']
+    readonly_fields = ['preco_unitario', 'total_item']
     extra = 1
 
 

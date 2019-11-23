@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
+from django.contrib.auth import views as auth_views
 
 from Home.views import my_logout
 from Servico.views import inicial
@@ -27,6 +28,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name='home/login.html'), name='login'),
     path('logout/', my_logout, name='my_logout'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='home/password_reset.html'), name="password_reset"),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='home/password_reset_done.html'), name="password_reset_done" ),
+    path('password-reset-confirme/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='home/password_reset_confirm.html'), name="password_reset_confirm" ),
+    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='home/password_reset_complete.html'), name="password_reset_complete" ),
     path('inicial/', inicial, name='inicial'),
     path('', include('Home.urls')),
     path('servico/', include('Servico.urls')),

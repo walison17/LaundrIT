@@ -57,7 +57,7 @@ class Pedido(UUIDModel, TimeStampedModel):
         editable=True,
     )
     pagamento = models.CharField('Pagamento', max_length=50, choices=PAGAMENTO, default=BOLETO, null=False, blank=False)
-    situacao_pedido = models.ForeignKey(StatusPedido, verbose_name="Status Pedido", on_delete=models.PROTECT)
+    situacao_pedido = models.ForeignKey(StatusPedido, verbose_name="Status Pedido", default=1, on_delete=models.PROTECT)
     class Meta:
         verbose_name = 'pedido'
         verbose_name_plural = 'pedidos'
@@ -108,8 +108,11 @@ class Roupa(UUIDModel, TimeStampedModel):
 
 class Item(TimeStampedModel):
     quantidade = models.PositiveIntegerField(verbose_name='Quantidade', default=1)
-    preco_unitario = DecimalField(
+    preco_unitario = models.DecimalField(
         'Preço Unitário', max_digits=5, decimal_places=2, editable=False
+    )
+    total_item = models.DecimalField(
+        'Total Item', max_digits=6, decimal_places=2, editable=False
     )
     servico = models.ForeignKey(
         'Servico.servico',
@@ -140,6 +143,7 @@ class Item(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         self.preco_unitario = (self.servico.preco_servico + self.roupa.preco_roupa)
+        self.total_item = (self.quantidade * self.preco_unitario)
         return super().save(*args, **kwargs)
     
 

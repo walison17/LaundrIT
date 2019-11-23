@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
 from django.http import HttpResponse
 from .models import Cliente
 from .forms import ClienteForm
@@ -84,6 +85,26 @@ def cadastro(request):
 
     return render(request, 'home/cadastro.html')
 
-
-
  
+def alterar_perfil(request):
+    if request.user.is_superuser:
+        user = request.user
+        cliente = None
+    else:
+        cliente = request.user.cliente
+        user = request.user
+    
+    if request.method == 'POST':
+        form =UserChangeForm(request.POST, instance=request.user)
+
+        if form.isvalid():
+            form.save()
+            return redirect('inicial')
+    
+    else:
+        form = UserChangeForm(instance=request.user)
+    
+        return render(request, 'home/alterar_perfil.html', {
+            'form': form,
+            'user': user,
+            'cliente': cliente})

@@ -15,6 +15,6 @@ urlpatterns = [
     path('suporte_admin/', suporte_admin, name='suporte_admin'),
     path('suporte_usuario/', suporte_usuario, name='suporte_usuario'),
     path('responder_suporte/<int:id>/', responder_suporte, name='responder_suporte'),
-    path('ver_pedido/<int:id>/', ver_pedido, name="ver_pedido")
+    path('ver_pedido/<int:id>/', ver_pedido, name="ver_pedido"),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

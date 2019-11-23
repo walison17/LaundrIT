@@ -1,0 +1,218 @@
+{% extends 'base_logado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block title %}{% endblock %}
+
+{% block sidebar %}
+<!-- Sidebar user panel (optional) -->
+                {% if not user.is_superuser %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p>{{user.cliente.nome_cliente}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src=" {% static 'img\usuario_teste.jpg' %} " class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                    <br>
+                        <p style="font-size: 12px;">{{user.first_name}}</p>
+                        <!-- Status -->
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- search form (Optional) -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar...">
+                        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                {% if user.is_superuser %}
+  <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa  fa-desktop"></i> <span>CADASTROS</span></a></li>
+          <li><a href={% url 'pedidos_admin' %}><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_admin' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_admin' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_admin' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% else %}
+      <ul class="sidebar-menu" data-widget="tree">
+          <li><a href="{% url 'inicial' %}"><i class="fa fa-bar-chart"></i> <span>DASHBOARD</span></a></li>
+          <li><a href="{% url 'pedidos_usuario' %}"><i class="fa fa-cart-plus"></i> <span>PEDIDOS</span></a></li>
+          <li><a href="{% url 'historico_usuario' %}"><i class="fa fa-file-text-o"></i> <span>HISTÓRICO</span></a></li>
+          <li><a href="{% url 'status_usuario' %}"><i class="fa fa-exchange"></i> <span>STATUS</span></a></li>
+          <li><a href="{% url 'suporte_usuario' %}"><i class="fa fa-user"></i> <span>SUPORTE</span></a></li>
+      </ul>
+      {% endif %}
+
+{% endblock %}
+
+
+{% block main %}
+{% include 'parciais/_messages.html' %}
+
+{% if user.is_superuser %}
+
+
+<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"> Alterar Dados do Administrador</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form method="POST" action="#" role="form">
+            {% csrf_token %}
+          
+              <div class="box-body">
+          <div class="col-md-6">
+                <div class="form-group">
+                  <label for="usuario_cliente">Usuário </label>
+                  <input type="text" class="form-control" name="usuario" id="usuario_cliente" value="{{ user.username }}" placeholder="Digite seu Usuário">
+                </div>
+                </div>
+                <div class="col-md-6">
+                   <div class="form-group">
+                  <label for="email_cliente">E-mail</label>
+                  <input type="email" class="form-control" name="email" id="email_cliente" value="{{ user.email }}" placeholder="Digite seu E-mail">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha_cliente">Senha </label>
+                  <input type="password" class="form-control" name="senha" id="senha_cliente" placeholder="Digite seu Senha">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha2_cliente">Confirmar Senha </label>
+                  <input type="password" class="form-control" name="senha2" id="senha2_cliente" placeholder="Confirme sua Senha">
+                </div>
+                </div>
+
+                </div> <!-- /.box-->
+                <div class="box-footer">
+              <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-sm">Alterar Dados do Administrador</button>
+                 <a class="btn btn-warning btn-sm" href="{% url 'inicial' %}" role="button">Voltar</a>
+                </div>
+              </div>
+            </form>
+            </div>
+
+{% else %}
+<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"> Alterar Dados Pessoais</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form method="POST" action="{% url 'alterar_perfil' %}" role="form">
+            {% csrf_token %}
+          
+              <div class="box-body">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="nome_cliente">Nome </label>
+                  <input type="text" class="form-control" name="nome" id="nome_cliente" value="{{ cliente.nome_cliente }}" placeholder="Digite seu nome">
+                </div>
+                </div>
+                  <div class="col-md-4">
+                <div class="form-group">
+                  <label for="cpf_cliente">CPF </label>
+                  <input type="text" class="form-control" name="cpf" id="cpf_cliente" value="{{ cliente.cpf }}" placeholder="Digite seu CPF">
+                </div>
+                </div>
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label for="rg_cliente">RG </label>
+                  <input type="text" class="form-control"  name="rg" id="rg_cliente" value="{{ cliente.rg }}" placeholder="Digite seu RG">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="endereco_cliente">Endereço </label>
+                  <input type="text" class="form-control" name="endereco" id="endereco_cliente" value="{{ cliente.endereco }}" placeholder="Digite seu Endereço">
+                </div>
+                </div>
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label for="telefone_cliente">Telefone </label>
+                  <input type="number" class="form-control" name="telefone" id="telefone_cliente" value="{{ cliente.telefone }}" placeholder="Digite seu Telefone">
+                </div>
+                </div>
+                </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+              <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-sm">Alterar Dados Pessoais</button>
+                 <a class="btn btn-warning btn-sm" href="{% url 'inicial' %}" role="button">Voltar</a>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+
+<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"> Alterar Dados do Usuário</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form method="POST" action="#" role="form">
+            {% csrf_token %}
+          
+              <div class="box-body">
+          <div class="col-md-6">
+                <div class="form-group">
+                  <label for="usuario_cliente">Usuário </label>
+                  <input type="text" class="form-control" name="usuario" id="usuario_cliente" value="{{ user.username }}" placeholder="Digite seu Usuário">
+                </div>
+                </div>
+
+                <div class="col-md-6">
+                   <div class="form-group">
+                  <label for="email_cliente">E-mail</label>
+                  <input type="email" class="form-control" name="email" id="email_cliente" value="{{ user.email }}"placeholder="Digite seu E-mail">
+                </div>
+                </div>
+
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha_cliente">Senha </label>
+                  <input type="password" class="form-control" name="senha" id="senha_cliente" placeholder="Digite seu Senha">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="senha2_cliente">Confirmar Senha </label>
+                  <input type="password" class="form-control" name="senha2" id="senha2_cliente" placeholder="Confirme sua Senha">
+                </div>
+                </div>
+
+                </div> <!-- /.box-->
+                <div class="box-footer">
+              <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-sm">Alterar Dados do Usuário</button>
+                 <a class="btn btn-warning btn-sm" href="{% url 'inicial' %}" role="button">Voltar</a>
+                </div>
+              </div>
+            </form>
+            </div>
+
+{% endif %}
+
+{% endblock %}
