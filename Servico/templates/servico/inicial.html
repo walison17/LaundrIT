@@ -418,7 +418,7 @@
                 </tr>
                   <tr> 
                   {% for pedido in pedido %}
-                  <td><a href="#" class="edit-status" >
+                  <td><a href="{% url 'ver_pedido' pedido.id %}" class="edit-status" >
                   <i class="fa fa-eye" aria-hidden="true" title="Visualizar"></i></a></td>
                   <td>{{ pedido.id }}</td>
                   <td>{{ pedido.solicitante.nome_cliente }}</td>

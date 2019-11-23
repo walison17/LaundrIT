@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.core.validators import validate_email
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from django.http import HttpResponse
@@ -85,37 +86,39 @@ def cadastro(request):
 
     return render(request, 'home/cadastro.html')
 
- 
-def alterar_perfil(request):
-    if not request.user.is_superuser:
-        cliente = request.user.cliente
-        user = request.user
-    
-        if request.method == 'POST':
-            form =ClienteForm(request.POST, instance=request.user.cliente)
 
-            if form.is_valid():
-                form.save()
-                messages.success(request, ' Dados alterado com sucesso!')
-            else:
-                messages.error(request, 'Erro! verifique os campos.')
-        
-        else:
-            form = ClienteForm(instance=request.user.cliente)
-    
-            return render(request, 'home/alterar_perfil.html', {
-                'form': form,
-                'user': user,
-                'cliente': cliente})
-    else:
+@login_required 
+def alterar_perfil(request):
+    cliente = request.user.cliente
+    user = request.user
+    if request.user.is_superuser:
         user = request.user
         return render(request, 'home/alterar_perfil.html', {
             'user': user,
         })
+    
+    if request.method == 'POST':
+        form =ClienteForm(request.POST, instance=request.user.cliente)
+
+        if form.is_valid():
+            form.save() 
+            messages.success(request, ' Dados alterado com sucesso!')
+        else:
+            messages.error(request, 'Erro! verifique os campos.')
+        
+    else:
+        form = ClienteForm(instance=request.user.cliente)
+    
+        return render(request, 'home/alterar_perfil.html', {
+            'form': form,
+            'user': user,
+            'cliente': cliente})
 
 
 
 
+
+@login_required
 def alterar_usuario(request):
     user = request.user
     if request.method == 'POST':

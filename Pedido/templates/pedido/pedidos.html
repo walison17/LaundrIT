@@ -67,9 +67,9 @@
               <h3 class="box-title">Dados Pessoais</h3>
             </div>
             <div class="box-body">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'pedidos_usuario' %}">
             {% csrf_token %} {{ form.errors }}
-              <!-- Date dd/mm/yyyy -->
+ 
               <div class="col-md-6">
               <div class="form-group">
                 <label>Nome do Cliente:</label>
@@ -80,13 +80,13 @@
                   </div>
                   <input type="text" class="form-control" value="{{user.cliente.nome_cliente}}" readonly>
                 </div>
-                <!-- /.input group -->
+               
               </div>
-              <!-- /.form group -->
+              
               </div>
 
             <div class="col-md-6">
-              <!-- phone mask -->
+             
               <div class="form-group">
                 <label>E-mail:</label>
 
@@ -96,13 +96,13 @@
                   </div>
                   <input type="email" class="form-control" value="{{ user.email }}" readonly>
                 </div>
-                <!-- /.input group -->
+                
               </div>
-              <!-- /.form group -->
+             
               </div>
 
             <div class="col-md-4">
-              <!-- phone mask -->
+              
               <div class="form-group">
                 <label>CPF:</label>
 
@@ -112,13 +112,13 @@
                   </div>
                   <input type="text" class="form-control" id="cpf" value="{{ user.cliente.cpf }}" readonly>
                 </div>
-                <!-- /.input group -->
+                
               </div>
-              <!-- /.form group -->
+             
               </div>
 
             <div class="col-md-4">
-              <!-- IP mask -->
+              
               <div class="form-group">
                 <label>Endereço:</label>
 
@@ -128,13 +128,13 @@
                   </div>
                   <input type="text" class="form-control" id="endereco" value="{{ user.cliente.endereco }}" readonly>
                 </div>
-                <!-- /.input group -->
+                
               </div>
-              <!-- /.form group -->
+              
               </div>
 
               <div class="col-md-4">
-              <!-- IP mask -->
+             
               <div class="form-group">
                 <label>Telefone:</label>
 
@@ -144,9 +144,9 @@
                   </div>
                   <input type="text" class="form-control" id="telefone" value="{{ user.cliente.telefone }}" readonly>
                 </div>
-                <!-- /.input group -->
+               
               </div>
-              <!-- /.form group -->
+             
               </div>
 
             <div class="col-md-4">
@@ -156,17 +156,17 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" class="form-control pull-right">
+                  <input type="date" class="form-control pull-right" id="data_entrega" name="data_entrega">
                 </div>
-                <!-- /.input group -->
+                
               </div>
-              <!-- /.form group -->
+              
               </div>
               
 
 
             </div>
-            <!-- /.box-body -->
+  
 
 <div class="row">
 <div class="col-md-12">

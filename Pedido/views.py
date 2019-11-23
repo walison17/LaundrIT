@@ -5,16 +5,17 @@ from django.core.mail import send_mail
 from django.shortcuts import get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
+from django.utils import timezone
+from django.forms import modelformset_factory
+from django.http import HttpResponseNotFound
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.db.models import Q, Value
 from django.contrib.auth.models import User
 from Home.models import Cliente
-from django.http import HttpResponseNotFound
 from Servico.models import Servico
 from .models import Pedido, Item, Roupa, Status, Suporte
-from django.utils import timezone
 
 from .forms import PedidoForm, ItemForm, StatusForm, SuporteForm
 from Servico.forms import ServicoForm
@@ -44,20 +45,24 @@ def pedidos_admin(request):
                 })
 
 @login_required
-def pedidos_usuario(request):
+def pedidos_usuario(request, ):
     cliente = Cliente.objects.all()
     itens = Item.objects.all()
     roupas = Roupa.objects.all()
     pedido = Pedido.objects.all()
     servico =  Servico.objects.all()
     status = Status.objects.all()
-
+    user = request.user.id
+    
     form = PedidoForm(request.POST or None, request.FILES or None)
+
+    form_item = ItemForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
         form.save()
 
         return redirect('pagamento')
+
 
     return render(request, 'pedido/pedidos.html', {
             'cliente': cliente,
@@ -66,6 +71,8 @@ def pedidos_usuario(request):
             'itens': itens,
             'pedido': pedido,
             'servico': servico,
+            'form': form,
+            'form_item': form_item
                 })
 
 

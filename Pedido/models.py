@@ -73,7 +73,6 @@ class Pedido(UUIDModel, TimeStampedModel):
         return self.items.aggregate(valor_total=Sum(expression))['valor_total']
 
     def save(self, *args, **kwargs):
-        print('something')
         self.valor_total = self.calcular_valor()
         super(Pedido, self).save(*args, **kwargs)
 

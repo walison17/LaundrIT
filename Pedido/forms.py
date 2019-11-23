@@ -1,17 +1,22 @@
 from django.forms import ModelForm
+from django import forms
 from django.contrib.auth.hashers import make_password
 from django.db import transaction
+from django.forms import formset_factory
 
 from Home.models import Cliente
 from  Pedido.models import Item, Pedido, Roupa, Status, Suporte
 
 
-class ItemForm(ModelForm):
+class ItemForm(forms.Form):
     
     class Meta:
         model = Item
 
         fields = ['quantidade', 'servico', 'pedido']
+
+ItemFormset = formset_factory(ItemForm)
+
 
 
 class PedidoForm(ModelForm):

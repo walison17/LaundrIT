@@ -38,6 +38,7 @@ def inicial(request):
         pedido = paginator.get_page(page)
         return render(request, 'servico/inicial.html', {
         'servico': servico,
+        'pedido': pedido,
     })
 
     return render(request, 'servico/inicial.html', {
