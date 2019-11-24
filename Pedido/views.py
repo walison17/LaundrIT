@@ -17,7 +17,7 @@ from Home.models import Cliente
 from Servico.models import Servico
 from .models import Pedido, Item, Roupa, Status, Suporte
 
-from .forms import PedidoForm, ItemForm, StatusForm, SuporteForm
+from .forms import PedidoForm, ItemFormset, StatusForm, SuporteForm
 from Servico.forms import ServicoForm
 
 # Create your views here.
@@ -44,36 +44,33 @@ def pedidos_admin(request):
             'servico': servico,
                 })
 
+
 @login_required
-def pedidos_usuario(request, ):
-    cliente = Cliente.objects.all()
-    itens = Item.objects.all()
-    roupas = Roupa.objects.all()
-    pedido = Pedido.objects.all()
-    servico =  Servico.objects.all()
-    status = Status.objects.all()
-    user = request.user.id
-    
-    form = PedidoForm(request.POST or None, request.FILES or None)
+def pedidos_usuario(request):
+    if request.method == 'POST':
+        pedido_form = PedidoForm(request.POST, request.FILES, prefix='pedido')
+        item_formset = ItemFormset(request.POST, prefix='itens')
 
-    form_item = ItemForm(request.POST or None, request.FILES or None)
+        if pedido_form.is_valid() and item_formset.is_valid():
+            pedido = pedido_form.save()
+            items = item_formset.save(commit=False)
 
-    if form.is_valid():
-        form.save()
+            for item in items:
+                item.pedido = pedido
+                item.save()
 
-        return redirect('pagamento')
+            pedido.valor_total = pedido.calcular_valor()
+            pedido.save(update_fields=['valor_total'])
 
+            return redirect('pagamento')
+    else:
+        pedido_form = PedidoForm(prefix='pedido')
+        item_formset = ItemFormset(prefix='itens')
 
     return render(request, 'pedido/pedidos.html', {
-            'cliente': cliente,
-            'roupas': roupas,
-            'status': status,
-            'itens': itens,
-            'pedido': pedido,
-            'servico': servico,
-            'form': form,
-            'form_item': form_item
-                })
+        'pedido_form': pedido_form,
+        'item_formset': item_formset
+    })
 
 
 @login_required
@@ -113,7 +110,7 @@ def suporte_usuario(request):
         return render(request, 'pedido/suporte.html')
 
 
-    nome_cliente = request.user.username 
+    nome_cliente = request.user.username
     cpf = request.user.cliente.cpf
 
     suporte = Suporte.objects.create(email=email, nome_cliente=nome_cliente, \
@@ -137,7 +134,7 @@ def responder_suporte(request, id):
         suporte = Suporte.objects.all()
         suporte = get_object_or_404(Suporte, pk=id)
         form = SuporteForm(request.POST or None, request.FILES or None, instance=suporte)
-  
+
 
         resposta = request.POST.get('resposta', None)
         cpf = suporte.cpf
@@ -145,9 +142,9 @@ def responder_suporte(request, id):
         nome_cliente = suporte.nome_cliente
         mensagem = suporte.mensagem
 
-      
 
-        if form.is_valid():    
+
+        if form.is_valid():
             form.save()
             save_it = form.save()
             save_it.save()
@@ -178,4 +175,3 @@ def ver_pedido(request, id):
             'form': form,
             'pedido': pedido,
             } )
-    
